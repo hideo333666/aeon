@@ -56,3 +56,6 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
+gem 'acts-as-taggable-on', '~> 8.1'
+gem 'acts_as_list'
+
