@@ -1,0 +1,2 @@
+module Publikc::PostsHelper
+end
