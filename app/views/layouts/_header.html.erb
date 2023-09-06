@@ -47,8 +47,14 @@
         <% when "tasks" %>
           <li class="nav-item">
             <%= link_to "タスク一覧", "#", class: "nav-link" %>
+            <%= link_to "メッセージ", "#", class: "nav-link" %>
+            <%= link_to "メンバー管理", "#", class: "nav-link" %>
+            <%= link_to "マイページ", "#", class: "nav-link" %>
+            <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" %>
           </li>
-          
+          <li class="nav-item">
+            <%= 
+          </li>
           <!-- こちらにタスク管理画面用のヘッダー内容を書く -->
         <% else %>
           <!-- その他のページ用のデフォルトヘッダー -->
