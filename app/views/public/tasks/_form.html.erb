@@ -1,0 +1,41 @@
+<%= form_for task do |f| %>
+  <% if task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
+      <ul>
+        <% task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+  </div>
+
+  <div>
+    <%= f.label :due_date %>
+    <%= f.date_select :due_date %>
+  </div>
+
+  <div>
+    <%= f.label :priority %>
+    <%= f.number_field :priority %>
+  </div>
+
+  <div>
+    <%= f.label :is_checked, '完了済み' %>
+    <%= f.check_box :is_checked %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

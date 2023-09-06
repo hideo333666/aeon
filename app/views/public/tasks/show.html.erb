@@ -1,0 +1,9 @@
+<h1><%= @task.title %></h1>
+
+<p><strong>説明：</strong><%= @task.description %></p>
+<p><strong>期限：</strong><%= @task.due_date %></p>
+<p><strong>優先度：</strong><%= @task.priority %></p>
+
+<%= link_to '編集', edit_task_path(@task) %>
+<%= link_to '削除', task_path(@task), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+<%= link_to '戻る', tasks_path %>

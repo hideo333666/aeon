@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     root 'homes#top'
     get 'about' => 'homes#about', as: 'about'
     resources :users, only: [:show, :update]
+    resources :tasks
   end
 
   get 'top' => 'homes#top'
