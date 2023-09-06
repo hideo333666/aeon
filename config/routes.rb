@@ -1,8 +1,18 @@
 Rails.application.routes.draw do
-  devise_for :admins
+  # 管理者用のDeviseルーティング。パスに'admin'を指定。
+  devise_for :admins, path: 'admin'
+  # ユーザー用のDeviseルーティング。
   devise_for :users
-  
-  namespace :public do
-    resources :users, only:[:show, :update]
+
+  # 管理者用のルートは名前空間（namespace）またはスコープ（scope）内で定義可能。
+  # namespace :admin do
+  #   resources :何らかのリソース
+  # end
+  scope module: :public do
+    root 'homes#top'
+    get 'about' => 'homes#about', as: 'about'
+    resources :users, only: [:show, :update]
   end
+
+  get 'top' => 'homes#top'
 end
