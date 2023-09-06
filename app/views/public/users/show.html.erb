@@ -7,3 +7,12 @@
   <p><strong>登録日：</strong><%= @user.created_at.to_formatted_s(:long) %></p>
 </div>
 
+<%= month_calendar events: @events do |date, events| %>
+  <%= date.day %>
+
+  <% events.each do |event| %>
+    <div>
+      <%= event.title %>
+    </div>
+  <% end %>
+<% end %>
