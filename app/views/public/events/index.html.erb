@@ -1,8 +1,8 @@
-<%= calendar number_of_weeks: 4 do |date, events| %>
-  <%= date %>
-  <% events.each do |event| %>
-    <div>
-      <%= link_to event.name, event_path(event) %>
-    </div>
+<h1>Events</h1>
+<%= link_to 'New Event', new_project_event_path(@project) %>
+<ul>
+  <% @events.each do |event| %>
+    <li><%= event.title %></li>
   <% end %>
-<% end %>
+</ul>
+

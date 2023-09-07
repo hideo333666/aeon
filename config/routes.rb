@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     get 'about' => 'homes#about', as: 'about'
     resources :users, only: [:show, :update]
     resources :tasks
-    resources :events, only: [:index, :create]
+    resources :projects do
+      resources :events
+    end
   end
 
   get 'top' => 'homes#top'
