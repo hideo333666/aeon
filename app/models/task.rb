@@ -1,6 +1,7 @@
 class Task < ApplicationRecord
   
   belongs_to :user
+  belongs_to :project, optional: true
   validates :title, presence: true
   
   # 過去の日付は許可しない

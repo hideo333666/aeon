@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_05_115851) do
+ActiveRecord::Schema.define(version: 2023_09_07_031039) do
 
   create_table "achievements", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(version: 2023_09_05_115851) do
     t.datetime "end_time", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "project_id", null: false
+    t.index ["project_id"], name: "index_events_on_project_id"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
@@ -60,6 +62,8 @@ ActiveRecord::Schema.define(version: 2023_09_05_115851) do
     t.text "content"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "project_id", null: false
+    t.index ["project_id"], name: "index_notes_on_project_id"
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
@@ -89,6 +93,15 @@ ActiveRecord::Schema.define(version: 2023_09_05_115851) do
     t.index ["task_id"], name: "index_progresses_on_task_id"
   end
 
+  create_table "projects", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_projects_on_user_id"
+  end
+
   create_table "reminders", force: :cascade do |t|
     t.integer "event_id", null: false
     t.datetime "time", null: false
@@ -107,6 +120,8 @@ ActiveRecord::Schema.define(version: 2023_09_05_115851) do
     t.integer "priority"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "project_id", null: false
+    t.index ["project_id"], name: "index_tasks_on_project_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
@@ -125,11 +140,15 @@ ActiveRecord::Schema.define(version: 2023_09_05_115851) do
 
   add_foreign_key "achievements", "users"
   add_foreign_key "contributions", "users"
+  add_foreign_key "events", "projects"
   add_foreign_key "events", "users"
+  add_foreign_key "notes", "projects"
   add_foreign_key "notes", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "posts", "users"
   add_foreign_key "progresses", "tasks"
+  add_foreign_key "projects", "users"
   add_foreign_key "reminders", "events"
+  add_foreign_key "tasks", "projects"
   add_foreign_key "tasks", "users"
 end
