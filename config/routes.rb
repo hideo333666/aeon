@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :public do
+    get 'dashboard/show'
+  end
   # 管理者用のDeviseルーティング。パスに'admin'を指定。
   devise_for :admins, path: 'admin'
   # ユーザー用のDeviseルーティング。
@@ -15,8 +18,10 @@ Rails.application.routes.draw do
     resources :tasks
     resources :projects do
       resources :events
+
     end
   end
 
   get 'top' => 'homes#top'
+  get "dashboard", to: "dashboard#show", as: "dashboard"
 end

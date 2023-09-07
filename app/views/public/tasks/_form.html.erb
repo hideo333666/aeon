@@ -9,7 +9,10 @@
       </ul>
     </div>
   <% end %>
-
+  <div>
+  <%= f.label :project_id, "関連プロジェクト" %>
+  <%= f.collection_select :project_id, current_user.projects, :id, :name, prompt: "プロジェクトを選択してください" %>
+  </div>
   <div>
     <%= f.label :title %>
     <%= f.text_field :title %>
