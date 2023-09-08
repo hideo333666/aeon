@@ -13,9 +13,8 @@
 
   <body>
     <%= render 'layouts/header' %>
-    
     <%= yield %>
-    
+     <%= javascript_pack_tag 'tasks' %>
     <%#<%= render 'layouts/footer' %>
     
   </body>

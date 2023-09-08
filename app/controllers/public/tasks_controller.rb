@@ -16,9 +16,9 @@ class Public::TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     if @task.save
-      redirect_to @task, notice: "タスクの作成に成功しました"
+      render json: { success: true, message: "タスクの作成に成功しました", task: { id: @task.id, title: @task.title } }
     else
-      render :new
+      render json: { success: false, errors: @task.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -27,9 +27,9 @@ class Public::TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      redirect_to @task, notice: "タスクの更新に成功しました"
+      render json: { message: "タスクの更新に成功しました" }
     else
-      render :edit
+      render json: { errors: @task.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -46,6 +46,6 @@ class Public::TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :description, :due_date, :priority, :project_id)
+    params.require(:task).permit(:title, :description, :due_date, :priority, :project_id, :is_checked)
   end
 end
