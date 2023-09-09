@@ -16,11 +16,13 @@ class Public::TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     if @task.save
-      redirect_to @task, notice: "タスクの作成に成功しました"
+      render json: { success: true, message: "タスクの作成に成功しました", task: @task }
     else
-      render :new
+      puts "@task.errors.full_messages: #{@task.errors.full_messages}"
+      render json: { success: false, message: @task.errors.full_messages }
     end
   end
+
 
   def edit
   end
@@ -46,6 +48,6 @@ class Public::TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :description, :due_date, :priority, :project_id)
+    params.require(:task).permit(:title, :description, :due_date, :priority, :is_checked, :project_id)
   end
 end
