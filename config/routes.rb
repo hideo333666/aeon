@@ -15,10 +15,13 @@ Rails.application.routes.draw do
     root 'homes#top'
     get 'about' => 'homes#about', as: 'about'
     resources :users, only: [:show, :update]
-    resources :tasks
+    resources :tasks do
+      member do
+        patch :toggle
+       end
+      end
     resources :projects do
       resources :events
-
     end
   end
 

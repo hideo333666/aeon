@@ -39,6 +39,17 @@ class Public::TasksController < ApplicationController
     @task.destroy
     redirect_to tasks_url, notice: "タスクの削除に成功しました"
   end
+  
+  def toggle
+    @task = Task.find(params[:id])
+  
+    if @task.update(task_params)
+      render json: { success: true }
+    else
+      puts @task.errors.full_messages
+      render json: { success: false, error: @task.errors.full_messages.join(', ') }, status: 422
+    end
+  end
 
   private
 
