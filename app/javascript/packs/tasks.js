@@ -1,7 +1,7 @@
 $(document).on('turbolinks:load', function() {
   if (!window.taskHandlerInitialized) {
     let isSubmitting = false;
-    
+
     $('input[name="date_range"]').daterangepicker({
       locale: {
         format: 'YYYY-MM-DD'
@@ -11,7 +11,6 @@ $(document).on('turbolinks:load', function() {
       $('input[name="task[start_date]"]').val(start.format('YYYY-MM-DD'));
       $('input[name="task[end_date]"]').val(end.format('YYYY-MM-DD'));
     });
-    
 
     $(document).off('submit', '#new_task, .edit_task').on('submit', '#new_task, .edit_task', function(e) {
       if (isSubmitting) return false;
@@ -36,8 +35,8 @@ $(document).on('turbolinks:load', function() {
           if (data.success) {
             $('#taskModal').modal('hide');
             alert(data.message);
-            
-            const newTaskLink = $('<a></a>').attr('href', '/tasks/' + data.task.id).text(data.task.title);
+
+            const newTaskLink = $('<a></a>').attr('href', '/tasks/' + data.task.id).text(data.task.title).addClass('task-link');
             const checkbox = $('<input>')
               .attr('type', 'checkbox')
               .attr('name', 'task_completed_' + data.task.id)
@@ -62,7 +61,16 @@ $(document).on('turbolinks:load', function() {
       });
     });
 
-    // タスク完了のチェックボックスのトグル
+    $(document).on('click', '.task-link', function(e) {
+      e.preventDefault();
+      const taskUrl = $(this).attr('href');
+
+      $.get(taskUrl, function(data) {
+        $('#taskDetailModal .modal-body').html(data);
+        $('#taskDetailModal').modal('show');
+      });
+    });
+
     $(document).on('change', '.task-completed-checkbox', function() {
       const taskId = $(this).val();
       const isChecked = $(this).prop('checked');

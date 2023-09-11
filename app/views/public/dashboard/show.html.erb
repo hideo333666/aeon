@@ -30,11 +30,10 @@
     <%= link_to "新しいプロジェクトを作成", new_project_path, class: "btn btn-primary mr-2" %>
   </div>
 
-  <!-- モーダルトリガーボタン -->
+  <!-- タスク新規作成 モーダルトリガーボタン -->
   <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#taskModal">
     新しいタスクを作成
   </button>
-
   <!-- モーダル本体 -->
   <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -51,4 +50,20 @@
       </div>
     </div>
   </div>
+  <!--タスク詳細画面用モーダル -->
+  <div class="modal fade" id="taskDetailModal" tabindex="-1" role="dialog" aria-labelledby="taskDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="taskDetailModalLabel">タスク詳細</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Content will be loaded here dynamically -->
+      </div>
+    </div>
+  </div>
+</div>
 </div>
