@@ -4,12 +4,14 @@ class Task < ApplicationRecord
   belongs_to :project, optional: true
   validates :title, presence: true
   
-  # 過去の日付は許可しない
-  validate :due_date_cannot_be_in_the_past
+   validate :end_date_after_start_date
+
+    private
   
-  def due_date_cannot_be_in_the_past
-    if due_date.present? && due_date < Date.today
-      errors.add(:due_date, "は今日以降の日付を設定してください")
+    def end_date_after_start_date
+      if end_date && start_date && end_date < start_date
+        errors.add(:end_date, "は開始日より後の日付を選択してください")
+      end
     end
-  end
+ 
 end

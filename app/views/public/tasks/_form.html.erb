@@ -1,7 +1,7 @@
-<%= form_for task, html: { id: 'new_task' } do |f| %>
+<%= form_for task, html: { id: 'new_task', class: 'mt-3' } do |f| %>
   <% if task.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
+    <div id="error_explanation" class="alert alert-danger">
+      <h4><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h4>
       <ul>
         <% task.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -9,36 +9,44 @@
       </ul>
     </div>
   <% end %>
-  <div>
-  <%= f.label :project_id, "関連プロジェクト" %>
-  <%= f.collection_select :project_id, current_user.projects, :id, :name, prompt: "プロジェクトを選択してください" %>
+  
+  <div class="form-group">
+    <%= f.label :project_id, "関連プロジェクト" %>
+    <%= f.collection_select :project_id, current_user.projects, :id, :name, { prompt: "プロジェクトを選択してください" }, class: 'form-control' %>
   </div>
-  <div>
+  
+  <div class="form-group">
     <%= f.label :title %>
-    <%= f.text_field :title %>
+    <%= f.text_field :title, class: 'form-control' %>
   </div>
 
-  <div>
+  <div class="form-group">
     <%= f.label :description %>
-    <%= f.text_area :description %>
+    <%= f.text_area :description, class: 'form-control', rows: 5 %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :start_date, "開始日" %>
+    <%= f.date_field :start_date, class: 'form-control' %> 
+  </div>
+
+  <div class="form-group">
+    <%= f.label :end_date, "終了日" %>
+    <%= f.date_field :end_date, class: 'form-control' %> 
+  </div>
+
+  <div class="form-group">
+    <%= f.label :priority, "優先度" %>
+    <%= f.select :priority, { '低': 'low', '中': 'medium', '高': 'high' }, {}, class: 'form-control' %>
+  </div>
+
+  <div class="form-group form-check">
+    <%= f.check_box :is_checked, class: 'form-check-input' %>
+    <%= f.label :is_checked, '完了済み', class: 'form-check-label' %>
   </div>
 
   <div>
-    <%= f.label :due_date %>
-    <%= f.date_select :due_date %>
-  </div>
-
-  <div>
-    <%= f.label :priority %>
-    <%= f.number_field :priority %>
-  </div>
-
-  <div>
-    <%= f.label :is_checked, '完了済み' %>
-    <%= f.check_box :is_checked %>
-  </div>
-
-  <div>
-    <%= f.submit %>
+    <%= f.submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>
+

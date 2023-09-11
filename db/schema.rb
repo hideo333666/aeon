@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_07_031039) do
+ActiveRecord::Schema.define(version: 2023_09_11_130834) do
 
   create_table "achievements", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -121,6 +121,9 @@ ActiveRecord::Schema.define(version: 2023_09_07_031039) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "project_id", null: false
+    t.datetime "completed_at"
+    t.date "start_date"
+    t.date "end_date"
     t.index ["project_id"], name: "index_tasks_on_project_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
