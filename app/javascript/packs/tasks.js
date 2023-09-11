@@ -1,6 +1,17 @@
 $(document).on('turbolinks:load', function() {
   if (!window.taskHandlerInitialized) {
     let isSubmitting = false;
+    
+    $('input[name="date_range"]').daterangepicker({
+      locale: {
+        format: 'YYYY-MM-DD'
+      },
+      opens: 'left'
+    }, function(start, end, label) {
+      $('input[name="task[start_date]"]').val(start.format('YYYY-MM-DD'));
+      $('input[name="task[end_date]"]').val(end.format('YYYY-MM-DD'));
+    });
+    
 
     $(document).off('submit', '#new_task, .edit_task').on('submit', '#new_task, .edit_task', function(e) {
       if (isSubmitting) return false;

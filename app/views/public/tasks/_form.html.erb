@@ -24,6 +24,11 @@
     <%= f.label :description %>
     <%= f.text_area :description, class: 'form-control', rows: 5 %>
   </div>
+  
+  <div class="form-group">
+    <%= f.label :date_range, "期間" %>
+    <%= text_field_tag :date_range, "", class: 'form-control', placeholder: '開始日 - 終了日' %>
+  </div>
 
   <div class="form-group">
     <%= f.label :start_date, "開始日" %>
