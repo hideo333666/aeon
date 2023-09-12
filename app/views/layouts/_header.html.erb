@@ -1,66 +1,39 @@
 <% unless controller_name == "tasks" && action_name == "show" %>
 <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">アプリ名</a>
+    <%= link_to "Aeon", public_dashboard_show_path, class: "navbar-brand" %>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
-        <% case controller_name %>
-        <% when "homes" %>
-          <% if action_name == "top" %>
-            <% if user_signed_in? %>
-              <li class="nav-item">
-                <span class="nav-link">Welcome, <%= current_user.email %></span>
-              </li>
-              <li class="nav-item">
-                <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" %>
-              </li>
-            <% else %>
-              <li class="nav-item">
-                <%= link_to "TOP", root_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "使用方法", about_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "サインイン", new_user_registration_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "ログイン", new_user_session_path, class: "nav-link" %>
-              </li>
-            <% end %>
-          <% elsif action_name == "about" %>
-             <li class="nav-item">
-                <%= link_to "TOP", root_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "使用方法", about_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "サインイン", new_user_registration_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "ログイン", new_user_session_path, class: "nav-link" %>
-              </li>
+        <% if controller_name == "homes" && ["top", "about"].include?(action_name) %>
+          <% [["TOP", root_path], ["使用方法", about_path], ["サインイン", new_user_registration_path], ["ログイン", new_user_session_path]].each do |name, path| %>
+            <li class="nav-item">
+              <%= link_to name, path, class: "nav-link" %>
+            </li>
           <% end %>
-        <% when "tasks" %>
-          <li class="nav-item">
-            <%= link_to "タスク一覧", "#", class: "nav-link" %>
-            <%= link_to "メッセージ", "#", class: "nav-link" %>
-            <%= link_to "メンバー管理", "#", class: "nav-link" %>
-            <%= link_to "マイページ", "#", class: "nav-link" %>
-            <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-          </li>
-          <!-- こちらにタスク管理画面用のヘッダー内容を書く -->
         <% else %>
-          <!-- その他のページ用のデフォルトヘッダー -->
+          <% [["タスク一覧", tasks_path], ["メッセージ", "#"], ["メンバー管理", "#"]].each do |name, path| %>
+            <li class="nav-item">
+              <%= link_to name, path, class: "nav-link" %>
+            </li>
+          <% end %>
+          <% if current_user %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user-circle"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                <%= link_to "マイページ", user_path(current_user), class: "dropdown-item" %>
+                <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+              </div>
+            </li>
+          <% end %>
         <% end %>
       </ul>
     </div>
   </nav>
 </header>
 <% end %>
+
