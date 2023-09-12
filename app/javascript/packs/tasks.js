@@ -1,4 +1,10 @@
 $(document).on('turbolinks:load', function() {
+  
+   $('#taskModal').on('hidden.bs.modal', function() {
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
+    });
+    
   if (!window.taskHandlerInitialized) {
     let isSubmitting = false;
 
@@ -103,13 +109,23 @@ $(document).on('turbolinks:load', function() {
       const modal = $(this);
       const titleElement = modal.find('h1');
       const descriptionElement = modal.find('p').eq(0);
-      const dueDateElement = modal.find('p').eq(1);
+      const dueDateText = modal.find('p').eq(1).text().replace('期限:','');
+      const dueDateElement = modal.find('p').eq(1).find('strong').after(`<input type="text" value="${dueDateText}">`).next();
       const priorityElement = modal.find('p').eq(2);
 
       // 各項目を編集可能な状態にする
       titleElement.html(`<input type="text" value="${titleElement.text()}">`);
       descriptionElement.find('strong').after(`<textarea>${descriptionElement.text().replace('説明：', '')}</textarea>`);
-      dueDateElement.find('strong').after(`<input type="date" value="${dueDateElement.text().replace('期限：', '')}">`);
+      dueDateElement.daterangepicker({
+        locale: {
+          format: 'YYYY-MM-DD'
+        },
+        singleDatePicker: true,
+        opens: 'left'
+      }, function(selectedDate) {
+         dueDateElement.val(selectedDate.format('YYYY-MM-DD'));
+      });
+      
       priorityElement.find('strong').after(`<input type="text" value="${priorityElement.text().replace('優先度：', '')}">`);
 
       // 保存ボタンを追加
@@ -117,39 +133,71 @@ $(document).on('turbolinks:load', function() {
     });
 
     // 保存ボタンがクリックされたときの処理
-    $(document).on('click', '#saveTaskChanges', function() {
-      const modal = $('#taskDetailModal');
-      const taskId = modal.data('task-id'); // タスクのIDをモーダルのdata属性から取得
-      const title = modal.find('h1 input').val();
-      const description = modal.find('p textarea').val();
-      const dueDate = modal.find('p input[type="date"]').val();
-      const priority = modal.find('p input[type="text"]').val();
-
-      $.ajax({
-        url: `/tasks/${taskId}`,
-        method: 'PATCH',
-        data: {
-          task: {
-            title: title,
-            description: description,
-            due_date: dueDate,
-            priority: priority
-          }
-        },
-        dataType: 'json',
-        success: function(data) {
-          if (data.success) {
-            alert('変更が保存されました。');
-            modal.modal('hide');
-          } else {
-            alert('エラーが発生しました:' + data.message);
-          }
-        },
-        error: function() {
-          alert('エラーが発生しました。');
+  $(document).on('click', '#saveTaskChanges', function() {
+    const modal = $('#taskDetailModal');
+    const taskId = modal.data('task-id'); // タスクのIDをモーダルのdata属性から取得
+    const title = modal.find('h1 input').val();
+    const description = modal.find('p textarea').val();
+    const dateRange = modal.find('p input[type="text"]').data('daterangepicker'); // daterangepickerのインスタンスを取得
+    const startDate = dateRange.startDate.format('YYYY-MM-DD');
+    const endDate = dateRange.endDate.format('YYYY-MM-DD');
+    const priority = modal.find('p input[type="text"]').val();
+    
+    $.ajax({
+      url: `/tasks/${taskId}`,
+      method: 'PATCH',
+      data: {
+        task: {
+          title: title,
+          description: description,
+          start_date: startDate,
+          end_date: endDate,
+          priority: priority
         }
-      });
+      },
+      dataType: 'json',
+      success: function(data) {
+        if (data.success) {
+          alert(data.message);  // サーバーからのメッセージを表示
+          modal.modal('hide');
+          location.reload();
+        } else {
+          alert('エラーが発生しました:' + data.message);
+        }
+      },
+      error: function() {
+        alert('通信エラーが発生しました。');
+      }
     });
+  });
+  
+  $(document).on('submit', '.task-form', function(e) {
+    e.preventDefault();
+
+    const form = $(this);
+    const url = form.attr('action');
+    const method = form.find('input[name="_method"]').val() || 'POST';
+
+    $.ajax({
+      url: url,
+      method: method,
+      data: form.serialize(),
+      dataType: 'json',
+      success: function(data) {
+        if (data.success) {
+          alert(data.message);
+          $('#taskDetailModal').modal('hide');
+          location.reload();
+        } else {
+          alert('エラーが発生しました:' + data.message);
+        }
+      },
+      error: function() {
+        alert('通信エラーが発生しました。');
+      }
+    });
+  });
+
 
     window.taskHandlerInitialized = true;
   }

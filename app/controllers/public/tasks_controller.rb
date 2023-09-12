@@ -30,9 +30,9 @@ class Public::TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      redirect_to @task, notice: "タスクの更新に成功しました"
+      render json: { success: true, message: "タスクの更新に成功しました" }
     else
-      render :edit
+      render json: { success: false, message: @task.errors.full_messages.join(", ") }, status: 422
     end
   end
 
@@ -60,6 +60,6 @@ class Public::TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :description, :due_date, :priority, :is_checked, :project_id)
+    params.require(:task).permit(:title, :description, :due_date, :priority, :is_checked, :start_date, :end_date, :project_id)
   end
 end

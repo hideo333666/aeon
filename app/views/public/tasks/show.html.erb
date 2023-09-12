@@ -1,17 +1,31 @@
-<div id="taskModal">
-    <label for="taskTitle">タイトル</label>
-    <input type="text" id="taskTitle" value="<%= @task.title %>">
+<%= form_for @task, html: { class: 'task-form' } do |f| %>
+  <div class="form-content">
+    <div class="form-group">
+      <%= f.label :title, "タイトル", class: 'form-label' %>
+      <%= f.text_field :title, id: "taskTitle", class: 'form-input' %>
+    </div>
+    
+    <div class="form-group">
+      <%= f.label :description, "説明：", class: 'form-label' %>
+      <%= f.text_area :description, id: "taskDescription", class: 'form-input' %>
+    </div>
 
-    <label for="taskDescription">説明：</label>
-    <textarea id="taskDescription"><%= @task.description %></textarea>
+    <div class="form-group">
+      <%= f.label :date_range, "期間", class: 'form-label' %>
+      <%= text_field_tag :date_range, "", class: 'form-control', placeholder: '開始日 - 終了日' %>
+      <%= hidden_field_tag 'task[start_date]', @task.start_date %>
+      <%= hidden_field_tag 'task[end_date]', @task.end_date %>
+    </div>
 
-    <label for="taskDueDate">期限：</label>
-    <input type="date" id="taskDueDate" value="<%= @task.due_date %>">
-
-    <label for="taskPriority">優先度：</label>
-    <input type="text" id="taskPriority" value="<%= @task.priority %>">
-
-    <button id="saveTaskDetails">変更を保存</button>
-    <%= link_to '削除', task_path(@task), method: :delete, data: { confirm: '本当に削除しますか？' } %>
-    <%= link_to '戻る', tasks_path %>
-</div>
+    <div class="form-group">
+      <%= f.label :priority, "優先度", class: 'form-label' %>
+      <%= f.select :priority, { '低': "low", "中": "medium", "高": "high" }, { selected: @task.priority }, class: "form-control" %>
+    </div>
+      
+    <div class="form-actions">
+      <%= f.submit "変更を保存", id: "saveTaskDetails", class: 'btn btn-primary' %>
+      <%= link_to '削除', task_path(@task), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
+      <%= link_to '戻る', tasks_path, class: 'btn btn-secondary' %>
+    </div>
+  </div>
+<% end %>

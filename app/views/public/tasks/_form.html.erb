@@ -9,12 +9,12 @@
       </ul>
     </div>
   <% end %>
-  
+
   <div class="form-group">
     <%= f.label :project_id, "関連プロジェクト" %>
     <%= f.collection_select :project_id, current_user.projects, :id, :name, { prompt: "プロジェクトを選択してください" }, class: 'form-control' %>
   </div>
-  
+
   <div class="form-group">
     <%= f.label :title %>
     <%= f.text_field :title, class: 'form-control' %>
@@ -24,10 +24,12 @@
     <%= f.label :description %>
     <%= f.text_area :description, class: 'form-control', rows: 5 %>
   </div>
-  
+
   <div class="form-group">
     <%= f.label :date_range, "期間" %>
     <%= text_field_tag :date_range, "", class: 'form-control', placeholder: '開始日 - 終了日' %>
+    <%= f.hidden_field :start_date %>
+    <%= f.hidden_field :end_date %>
   </div>
 
   <div class="form-group">
