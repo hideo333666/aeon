@@ -34,6 +34,8 @@ $(document).on('turbolinks:load', function() {
         success: function(data) {
           if (data.success) {
             $('#taskModal').modal('hide');
+            $('.modal-backdrop').remove();
+            $('body').removeClass('modal-open');
             alert(data.message);
 
             const newTaskLink = $('<a></a>').attr('href', '/tasks/' + data.task.id).text(data.task.title).addClass('task-link');
@@ -92,6 +94,59 @@ $(document).on('turbolinks:load', function() {
               taskElement.remove();
             });
           }
+        }
+      });
+    });
+
+    // タスクの詳細モーダルが表示されたときの処理
+    $(document).on('shown.bs.modal', '#taskDetailModal', function() {
+      const modal = $(this);
+      const titleElement = modal.find('h1');
+      const descriptionElement = modal.find('p').eq(0);
+      const dueDateElement = modal.find('p').eq(1);
+      const priorityElement = modal.find('p').eq(2);
+
+      // 各項目を編集可能な状態にする
+      titleElement.html(`<input type="text" value="${titleElement.text()}">`);
+      descriptionElement.find('strong').after(`<textarea>${descriptionElement.text().replace('説明：', '')}</textarea>`);
+      dueDateElement.find('strong').after(`<input type="date" value="${dueDateElement.text().replace('期限：', '')}">`);
+      priorityElement.find('strong').after(`<input type="text" value="${priorityElement.text().replace('優先度：', '')}">`);
+
+      // 保存ボタンを追加
+      modal.find('.modal-footer').prepend('<button id="saveTaskChanges" class="btn btn-primary">変更を保存</button>');
+    });
+
+    // 保存ボタンがクリックされたときの処理
+    $(document).on('click', '#saveTaskChanges', function() {
+      const modal = $('#taskDetailModal');
+      const taskId = modal.data('task-id'); // タスクのIDをモーダルのdata属性から取得
+      const title = modal.find('h1 input').val();
+      const description = modal.find('p textarea').val();
+      const dueDate = modal.find('p input[type="date"]').val();
+      const priority = modal.find('p input[type="text"]').val();
+
+      $.ajax({
+        url: `/tasks/${taskId}`,
+        method: 'PATCH',
+        data: {
+          task: {
+            title: title,
+            description: description,
+            due_date: dueDate,
+            priority: priority
+          }
+        },
+        dataType: 'json',
+        success: function(data) {
+          if (data.success) {
+            alert('変更が保存されました。');
+            modal.modal('hide');
+          } else {
+            alert('エラーが発生しました:' + data.message);
+          }
+        },
+        error: function() {
+          alert('エラーが発生しました。');
         }
       });
     });

@@ -1,9 +1,17 @@
-<h1><%= @task.title %></h1>
+<div id="taskModal">
+    <label for="taskTitle">タイトル</label>
+    <input type="text" id="taskTitle" value="<%= @task.title %>">
 
-<p><strong>説明：</strong><%= @task.description %></p>
-<p><strong>期限：</strong><%= @task.due_date %></p>
-<p><strong>優先度：</strong><%= @task.priority %></p>
+    <label for="taskDescription">説明：</label>
+    <textarea id="taskDescription"><%= @task.description %></textarea>
 
-<%= link_to '編集', edit_task_path(@task) %>
-<%= link_to '削除', task_path(@task), method: :delete, data: { confirm: '本当に削除しますか？' } %>
-<%= link_to '戻る', tasks_path %>
+    <label for="taskDueDate">期限：</label>
+    <input type="date" id="taskDueDate" value="<%= @task.due_date %>">
+
+    <label for="taskPriority">優先度：</label>
+    <input type="text" id="taskPriority" value="<%= @task.priority %>">
+
+    <button id="saveTaskDetails">変更を保存</button>
+    <%= link_to '削除', task_path(@task), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+    <%= link_to '戻る', tasks_path %>
+</div>

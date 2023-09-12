@@ -17,7 +17,7 @@
       <ul class="list-group" id="taskList">
         <% @tasks.each do |task| %>
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            <%= link_to task.title, task_path(task) %>
+            <%= link_to task.title, task_path(task), class: "task-link" %>
             <%= check_box_tag "task_completed_#{task.id}", task.id, task.is_checked, class: 'task-completed-checkbox', data: { url: toggle_task_path(task) } %>
           </li>
         <% end %>

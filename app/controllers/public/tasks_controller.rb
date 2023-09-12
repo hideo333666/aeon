@@ -7,6 +7,7 @@ class Public::TasksController < ApplicationController
   end
 
   def show
+    @hide_header = true
   end
 
   def new

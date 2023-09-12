@@ -1,0 +1,22 @@
+#taskModal {
+        font-family: Arial, sans-serif; 
+        width: 400px; 
+        margin: auto; 
+        border: 1px solid #ccc;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    #taskModal label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 10px;
+    }
+    #taskModal input, #taskModal textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+    #taskModal button, #taskModal a {
+        margin-right: 10px;
+    }
