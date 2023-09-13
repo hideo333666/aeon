@@ -1,39 +1,48 @@
-<% unless controller_name == "tasks" && action_name == "show" %>
-<header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <%= link_to "Aeon", public_dashboard_show_path, class: "navbar-brand" %>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        <% if controller_name == "homes" && ["top", "about"].include?(action_name) %>
-          <% [["TOP", root_path], ["使用方法", about_path], ["サインイン", new_user_registration_path], ["ログイン", new_user_session_path]].each do |name, path| %>
-            <li class="nav-item">
-              <%= link_to name, path, class: "nav-link" %>
-            </li>
-          <% end %>
-        <% else %>
-          <% [["タスク一覧", tasks_path], ["メッセージ", "#"], ["メンバー管理", "#"]].each do |name, path| %>
-            <li class="nav-item">
-              <%= link_to name, path, class: "nav-link" %>
-            </li>
-          <% end %>
-          <% if current_user %>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-user-circle"></i>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                <%= link_to "マイページ", user_path(current_user), class: "dropdown-item" %>
-                <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
-              </div>
-            </li>
-          <% end %>
-        <% end %>
-      </ul>
-    </div>
-  </nav>
-</header>
-<% end %>
+<% custom_class = controller_name == "homes" && ["top", "about"].include?(action_name) ? "custom-header" : "" %>
 
+<% unless controller_name == "tasks" && action_name == "show" %>
+  <header>
+    <nav class="navbar navbar-expand-lg custom-header">
+      <%= link_to "Aeon", public_dashboard_show_path, class: "navbar-brand" %>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto align-items-center">
+          <% if controller_name == "homes" && ["top", "about"].include?(action_name) %>
+            <% [["TOP", root_path], ["使用方法", about_path], ["サインイン", new_user_registration_path], ["ログイン", new_user_session_path]].each do |name, path| %>
+              <li class="nav-item">
+                <%= link_to name, path, class: "nav-link" %>
+              </li>
+            <% end %>
+          <% else %>
+            <% [["タスク一覧", tasks_path], ["メンバー管理", "#"]].each do |name, path| %>
+              <li class="nav-item">
+                <%= link_to name, path, class: "nav-link" %>
+              </li>
+            <% end %>
+            
+            <li class="nav-item">
+              <%= link_to "#", class: "nav-link d-flex flex-column align-items-center" do %>
+                <i class='fas fa-bell'></i>
+                <span class="d-block text-center">お知らせ</span>
+              <% end %>
+            </li>
+            
+            <% if current_user %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user-circle"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                  <%= link_to "マイページ", user_path(current_user), class: "dropdown-item" %>
+                  <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+                </div>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+  </header>
+<% end %>
