@@ -1,13 +1,6 @@
-$(document).on('turbolinks:load', function() {
-  
-   $('#taskModal').on('hidden.bs.modal', function() {
-        $('.modal-backdrop').remove();
-        $('body').removeClass('modal-open');
-    });
-    
-  if (!window.taskHandlerInitialized) {
-    let isSubmitting = false;
-
+// daterangepickerの初期化関数
+function initializeDateRangePicker() {
+  if ($('input[name="date_range"]').data('daterangepicker') === undefined) {
     $('input[name="date_range"]').daterangepicker({
       locale: {
         format: 'YYYY-MM-DD'
@@ -17,6 +10,19 @@ $(document).on('turbolinks:load', function() {
       $('input[name="task[start_date]"]').val(start.format('YYYY-MM-DD'));
       $('input[name="task[end_date]"]').val(end.format('YYYY-MM-DD'));
     });
+  }
+}
+
+$(document).on('turbolinks:load', function() {
+   initializeDateRangePicker();
+  
+   $('#taskModal').on('hidden.bs.modal', function() {
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
+    });
+    
+  if (!window.taskHandlerInitialized) {
+    let isSubmitting = false;
 
     $(document).off('submit', '#new_task, .edit_task').on('submit', '#new_task, .edit_task', function(e) {
       if (isSubmitting) return false;
