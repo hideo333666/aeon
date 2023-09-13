@@ -8,16 +8,16 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
-import $ from "jquery";
-window.jQuery = $;
-window.$ = $;
+// import $ from "jquery";
+// window.jQuery = $;
+// window.$ = $;
 
 import moment from "moment";
 import "daterangepicker";
 
 import "popper.js";
 import "bootstrap";
-import "../stylesheets/application"; 
+import "../stylesheets/application";
 import "./tasks";
 
 Rails.start()

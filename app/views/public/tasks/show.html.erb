@@ -12,14 +12,14 @@
 
     <div class="form-group">
       <%= f.label :date_range, "期間", class: 'form-label' %>
-      <%= text_field_tag :date_range, "", class: 'form-control', placeholder: '開始日 - 終了日' %>
+      <%= text_field_tag :date_range, @task.start_date.present? && @task.end_date.present? ? "#{@task.start_date} - #{@task.end_date}" : "", class: 'form-control', placeholder: '開始日 - 終了日' %>
       <%= hidden_field_tag 'task[start_date]', @task.start_date %>
       <%= hidden_field_tag 'task[end_date]', @task.end_date %>
     </div>
 
     <div class="form-group">
       <%= f.label :priority, "優先度", class: 'form-label' %>
-      <%= f.select :priority, { '低': "low", "中": "medium", "高": "high" }, { selected: @task.priority }, class: "form-control" %>
+      <%= f.select :priority, { '低': "low", "中": "medium", "高": "high" }, { selected: @task.priority }, class: "form-control", id: "taskPriority" %>
     </div>
       
     <div class="form-actions">
