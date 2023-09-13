@@ -1,11 +1,16 @@
-<body class="containar">
+<body class="<%= 'top-page' if controller_name == 'homes' && action_name == 'top' %>">
+
   <div class="container">
+    <div class="left-content">
+      <p class="top-text">ようこそAeonへ<br>
+         時間を楽しみながら管理し<br>
+         実りある人生を送りませんか？
+      </p>
+    </div>
     <div class="clock">
       <p class="clock-date"></p>
       <p class="clock-time"></p>
     </div>
   </div>
-  <!-- JavaScriptファイル読み込み -->
-  <%= javascript_pack_tag "clock" %>
+   <%= javascript_pack_tag "clock" %>
 </body>
-</html>

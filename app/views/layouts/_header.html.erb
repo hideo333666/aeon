@@ -3,7 +3,9 @@
 <% unless controller_name == "tasks" && action_name == "show" %>
   <header>
     <nav class="navbar navbar-expand-lg custom-header">
-      <%= link_to "Aeon", public_dashboard_show_path, class: "navbar-brand" %>
+      <%= link_to public_dashboard_show_path, class: "navbar-brand" do %>
+        <%= image_tag "Aeon.png", alt: "Aeon", style: "height: 100px;" %>
+      <% end %>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
