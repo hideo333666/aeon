@@ -17,11 +17,6 @@
       <%= hidden_field_tag 'task[end_date]', @task.end_date %>
     </div>
 
-    <div class="form-group">
-      <%= f.label :priority, "優先度", class: 'form-label' %>
-      <%= f.select :priority, { '低': "low", "中": "medium", "高": "high" }, { selected: @task.priority }, class: "form-control", id: "taskPriority" %>
-    </div>
-      
     <div class="form-actions">
       <%= f.submit "変更を保存", id: "saveTaskDetails", class: 'btn btn-primary' %>
       <%= link_to '削除', task_path(@task), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>

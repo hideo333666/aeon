@@ -32,16 +32,6 @@
     <%= f.hidden_field :end_date %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :priority, "優先度" %>
-    <%= f.select :priority, { '低': 'low', '中': 'medium', '高': 'high' }, {}, class: 'form-control' %>
-  </div>
-
-  <div class="form-group form-check">
-    <%= f.check_box :is_checked, class: 'form-check-input' %>
-    <%= f.label :is_checked, '完了済み', class: 'form-check-label' %>
-  </div>
-
   <div>
     <%= f.submit "Submit", class: "btn btn-primary" %>
   </div>

@@ -34,11 +34,14 @@ $(document).on('turbolinks:load', function() {
       submitButton.prop('disabled', true);
 
       isSubmitting = true;
+      
+      const priorityValue = $(this).find('select[name="task[priority]"]').val();
+      const formData = $(this).serialize() + `&task[priority]=${priorityValue}`;
 
       $.ajax({
         url: $(this).attr('action'),
         method: 'POST',
-        data: $(this).serialize(),
+        data: formData,
         dataType: 'json',
         complete: function() {
           isSubmitting = false;
@@ -125,13 +128,13 @@ $(document).on('turbolinks:load', function() {
     function handleAjaxError() {
       alert('通信エラーが発生しました。');
     }
+    
     //モーダル内の要素の取得と編集を行う関数
     function setupModalForEditing(modal) {
       const titleElement = modal.find('h1');
       const descriptionElement = modal.find('p').eq(0);
       const dueDateText = modal.find('p').eq(1).text().replace('期限:', '');
       const dueDateElement = modal.find('input[name="date_range"]');
-      const priorityElement = modal.find('#taskPriority');
       const initialStartDate = modal.find('input[name="task[start_date]"]').val();
       const initialEndDate = modal.find('input[name="task[end_date]"]').val();
 
@@ -152,7 +155,6 @@ $(document).on('turbolinks:load', function() {
         modal.find('input[name="task[end_date]"]').val(end.format('YYYY-MM-DD'));
       });
 
-     priorityElement.val(priorityElement.text().replace('優先度：', ''));
     }
 
     function createInputElement(value) {
@@ -170,6 +172,7 @@ $(document).on('turbolinks:load', function() {
     });
 
     $(document).on('click', '#saveTaskChanges', function() {
+      console.log("handler is working!");
       const modal = $('#taskDetailModal');
       const taskId = modal.data('task-id');
       const title = modal.find('h1 input').val();
@@ -177,7 +180,6 @@ $(document).on('turbolinks:load', function() {
       const dateRange = modal.find('p input[type="text"]').data('daterangepicker');
       const startDate = dateRange.startDate.format('YYYY-MM-DD');
       const endDate = dateRange.endDate.format('YYYY-MM-DD');
-      const priority = modal.find('#taskPriority').val();
 
       $.ajax({
         url: `/tasks/${taskId}`,
