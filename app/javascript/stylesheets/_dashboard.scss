@@ -1,7 +1,36 @@
-.no-padding-left {
+
+
+.project-field {
+  background-color: dimgray;
   padding-left: 0 !important;
+  min-height: 100vh;
 }
 
-.no-margin-left {
+.no-margin {
+  margin-top: 0 !important;
   margin-left: 0 !important;
+}
+
+.gray-background {
+  background-color: dimgray;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.custom-link {
+  color: #4dabff;
+  text-decoration: none; 
+  transition: color 0.3s ease;
+  display: inline-block;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 5px;
+  text-decoration: none;
+}
+
+.custom-link:hover {
+  color: #009BFF; 
+}
+
+.pj-font {
+  color: white;
 }

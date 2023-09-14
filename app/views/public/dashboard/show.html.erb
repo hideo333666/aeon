@@ -1,13 +1,17 @@
-<div class="container mt-5 no-margin-left">
-  <h1 class="mb-4">ダッシュボード</h1>
+<div class="container mt-5 no-margin">
 
   <!-- Filter and Projects Section -->
   <div class="row">
     <!-- Projects Column -->
-    <div class="col-md-3 no-padding-left">
+    <div class="col-md-3 project-field">
+
+      <div class="actions text-center mt-4">
+        <%= link_to "＋ 新規プロジェクト", new_project_path, class: "custom-link" %>
+      </div>
+
       <!-- Project Filter Form -->
-      <%= form_with(url: public_dashboard_show_path, method: :get, local: true) do %>
-        <div class="form-group">
+      <%= form_with(url: public_dashboard_show_path, method: :get, local: true, html: { class: "gray-background"}) do %>
+        <div class="form-group pj-font">
           <%= label_tag :project_id, "プロジェクトを選択" %>
           <%= select_tag :project_id, options_from_collection_for_select(@projects, "id", "name"), prompt: "プロジェクトを選択", class: "form-control" %>
         </div>
@@ -15,10 +19,10 @@
       <% end %>
 
       <!-- Project List -->
-      <h2 class="h4 mb-3">プロジェクト一覧</h2>
-      <ul class="list-group mb-4">
+      <h2 class="h4 mb-3 pj-font">プロジェクト一覧</h2>
+      <ul class="mb-4">
         <% @projects.each do |project| %>
-          <li class="list-group-item">
+          <li>
             <%= link_to project.name, project_path(project) %>
           </li>
         <% end %>
@@ -36,13 +40,8 @@
           </li>
         <% end %>
       </ul>
+       <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#taskModal">新しいタスクを作成</button>
     </div>
-  </div>
-
-  <!-- Action Buttons -->
-  <div class="actions mt-4">
-    <%= link_to "新しいプロジェクトを作成", new_project_path, class: "btn btn-primary mr-2" %>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#taskModal">新しいタスクを作成</button>
   </div>
 
   <!-- New Task Modal -->
