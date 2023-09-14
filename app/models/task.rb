@@ -4,14 +4,12 @@ class Task < ApplicationRecord
   belongs_to :project, optional: true
   validates :title, presence: true
   
-   validate :end_date_after_start_date
+  before_save :set_default_dates
 
-    private
+  private
   
-    def end_date_after_start_date
-      if end_date && start_date && end_date < start_date
-        errors.add(:end_date, "は開始日より後の日付を選択してください")
-      end
-    end
- 
+  def set_default_dates
+    self.start_date ||= Date.today
+    self.end_date ||= Date.today
+  end
 end
