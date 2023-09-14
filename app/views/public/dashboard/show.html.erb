@@ -1,10 +1,10 @@
-<div class="container mt-5">
+<div class="container mt-5 no-margin-left">
   <h1 class="mb-4">ダッシュボード</h1>
 
   <!-- Filter and Projects Section -->
   <div class="row">
     <!-- Projects Column -->
-    <div class="col-md-6 mb-4">
+    <div class="col-md-3 no-padding-left">
       <!-- Project Filter Form -->
       <%= form_with(url: public_dashboard_show_path, method: :get, local: true) do %>
         <div class="form-group">
@@ -15,8 +15,8 @@
       <% end %>
 
       <!-- Project List -->
-      <h2 class="h4">プロジェクト一覧</h2>
-      <ul class="list-group">
+      <h2 class="h4 mb-3">プロジェクト一覧</h2>
+      <ul class="list-group mb-4">
         <% @projects.each do |project| %>
           <li class="list-group-item">
             <%= link_to project.name, project_path(project) %>
@@ -26,9 +26,9 @@
     </div>
 
     <!-- Tasks Column -->
-    <div class="col-md-6 mb-4">
-      <h2 class="h4">タスク一覧</h2>
-      <ul class="list-group" id="taskList">
+    <div class="col-md-9">
+      <h2 class="h4 mb-3">タスク一覧</h2>
+      <ul class="list-group mb-4" id="taskList">
         <% @tasks.each do |task| %>
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <%= link_to task.title, task_path(task), class: "task-link" %>
