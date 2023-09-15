@@ -34,7 +34,7 @@ $(document).on('turbolinks:load', function() {
       submitButton.prop('disabled', true);
 
       isSubmitting = true;
-      
+
       const priorityValue = $(this).find('select[name="task[priority]"]').val();
       const formData = $(this).serialize() + `&task[priority]=${priorityValue}`;
 
@@ -60,9 +60,15 @@ $(document).on('turbolinks:load', function() {
               .attr('value', data.task.id)
               .attr('data-url', '/tasks/' + data.task.id + '/toggle')
               .addClass('task-completed-checkbox');
+
+            const startDate = new Date(data.task.start_date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
+            const endDate = new Date(data.task.end_date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
+            const dateRange = $('<span></span>').text(`${startDate} ~ ${endDate}`).addClass('custom-task-due-date');
+
             const newTask = $('<li></li>')
-              .addClass('list-group-item d-flex justify-content-between align-items-center')
+              .addClass('custom-task-item')
               .append(newTaskLink)
+              .append(dateRange)
               .append(checkbox);
             $('#taskList').append(newTask);
 
@@ -113,7 +119,7 @@ $(document).on('turbolinks:load', function() {
         }
       });
     });
-    
+
     //タスクの詳細モーダルが表示された時の処理
     function handleAjaxResponse(data) {
       if (data.success) {
@@ -128,7 +134,7 @@ $(document).on('turbolinks:load', function() {
     function handleAjaxError() {
       alert('通信エラーが発生しました。');
     }
-    
+
     //モーダル内の要素の取得と編集を行う関数
     function setupModalForEditing(modal) {
       const titleElement = modal.find('h1');
@@ -141,7 +147,7 @@ $(document).on('turbolinks:load', function() {
 
       titleElement.html(createInputElement(titleElement.text()));
       descriptionElement.find('strong').after(createTextareaElement(descriptionElement.text().replace('説明：', '')));
-      
+
       dueDateElement.daterangepicker({
         locale: {
           format: 'YYYY-MM-DD'

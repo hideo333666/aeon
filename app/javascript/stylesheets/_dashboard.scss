@@ -1,5 +1,3 @@
-
-
 .project-field {
   background-color: dimgray;
   padding-left: 0 !important;
@@ -32,5 +30,62 @@
 }
 
 .pj-font {
+  font-size: 14px;
   color: white;
+  padding: 6px 12px;
+}
+
+.sidebar-font {
+  font-size: 14px;
+  color: white;
+  text-align: center;
+  padding: 8px 18px;
+}
+
+.sidebar-font:hover {
+  color: blue;
+  text-decoration: underline;
+  text-shadow: 0 0 5px blue;
+}
+
+.project-count {
+  font-size: 10px;
+  margin-left: 30px;
+}
+
+.sidebar-select {
+  background-color: dimgray;
+  font-size: 14px;
+  color: white;
+  border: 2px solid #333;
+  border-radius: 5px;
+  height: 40px;
+}
+
+.sidebar-select:focus {
+  background-color: dimgray;
+  color: white;
+  border: 2px solid #333;
+}
+
+.custom-task-item {
+  border-radius: 10px;
+  box-shadow: 4px 0px 6px rgba(0,0,0,0.1);
+  padding: 10px 15px;
+  background-color: #ffffff;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-task-title {
+  font-size: 16px;
+  flex-grow: 1px;
+  margin-right: 10px;
+}
+
+.custom-task-due-date {
+  font-size: 10px;
+  color: #777777;
+  margin-right: 10px;
 }
