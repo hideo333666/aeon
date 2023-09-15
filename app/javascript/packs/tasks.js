@@ -100,7 +100,9 @@ $(document).on('turbolinks:load', function() {
       const isChecked = $(this).prop('checked');
       const url = $(this).data('url');
       const taskElement = $(this).closest('li');
-
+      
+      var currentUserId = $('.user-info').data('user-id');
+      
       $.ajax({
         url: url,
         method: 'PATCH',
@@ -112,6 +114,31 @@ $(document).on('turbolinks:load', function() {
         },
         success: function(data) {
           if (data.success && isChecked) {
+            $.ajax({
+              url:'/path/to/update/contribution',
+              method: 'POST',
+              data: {
+                user_id:currentUserId
+              },
+              success: function(response) {
+                const completedTasks = response;
+                
+                $('.day-cell').removeClass('color-level-1 color-level-2 color-level-3');
+                
+                for (let day in completedTasks) {
+                  const taskCount = completedTasks[day];
+                  const cell = $(`.day-cell[data-day="${day}"]`);
+                  if (taskCount < 3) {
+                    cell.addClass('color-level-1');
+                  } else if (taskCount < 6) {
+                    cell.addClass('color-level-2');
+                  } else {
+                    cell.addClass('color-level-3');
+                  }
+                }
+              }
+            });
+            
             taskElement.fadeOut(function() {
               taskElement.remove();
             });

@@ -19,6 +19,7 @@ import "popper.js";
 import "bootstrap";
 import "../stylesheets/application";
 import "./tasks";
+import "./contribution";
 
 Rails.start()
 Turbolinks.start()

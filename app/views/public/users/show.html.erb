@@ -1,11 +1,14 @@
 <h1>マイページ</h1>
 
-<div class="user-info">
+<div class="user-info" data-user-id="<%= @user.id %>">
   <h2>ユーザー情報</h2>
   <p><strong>ユーザー名：</strong><%= @user.name %></p>
   <p><strong>メールアドレス：</strong><%= @user.email %></p>
   <p><strong>登録日：</strong><%= @user.created_at.to_formatted_s(:long) %></p>
 </div>
+
+
+<div id="contribution-grid"></div>
 
 <%= month_calendar events: @events do |date, events| %>
   <%= date.day %>
