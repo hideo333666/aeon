@@ -7,8 +7,18 @@
   <p><strong>登録日：</strong><%= @user.created_at.to_formatted_s(:long) %></p>
 </div>
 
+<div id="weekday-headers">
+  <div>月</div>
+  <div>火</div>
+  <div>水</div>
+  <div>木</div>
+  <div>金</div>
+  <div>土</div>
+  <div>日</div>
+</div>
 
 <div id="contribution-grid"></div>
+
 
 <%= month_calendar events: @events do |date, events| %>
   <%= date.day %>

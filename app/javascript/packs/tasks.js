@@ -115,7 +115,7 @@ $(document).on('turbolinks:load', function() {
         success: function(data) {
           if (data.success && isChecked) {
             $.ajax({
-              url:'`/users/${currentUserId}/contribution`,',
+              url:`/users/${currentUserId}/contribution`,
               method: 'POST',
               data: {
                 user_id:currentUserId

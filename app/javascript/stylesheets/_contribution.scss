@@ -1,18 +1,68 @@
+.day-cell, #weekday-headers > div {
+  box-sizing: border-box;
+  width: 30px;  
+  height: 30px;
+  display: inline-block;
+  margin-right: 4px;  
+  margin-bottom: 4px;  
+}
+
 .day-cell {
-    width: 30px;
-    height: 30px;
-    border: 1px solid black;
-    display: inline-block;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  background-color: #edf2fa;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.day-cell:hover {
+  background-color: rgba(255,255,255,0.3); 
 }
 
 .color-level-1 {
-    background-color: #FFD1D1;
+  background-color: #b0f5e5;
 }
 
 .color-level-2 {
-    background-color: #FF8D8D;
+  background-color: #35f2c6;
 }
 
 .color-level-3 {
-    background-color: #FF4D4D;
+  background-color: #077485;
+}
+
+#weekday-headers {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 5px 0px 5px;
+}
+
+#weekday-headers > div {
+  height: 0;
+  margin-bottom: 0;
+}
+
+#contribution-grid {
+  width: 238px;  
+  font-size: 0;  
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: white;
+    padding: 5px 8px;  // 左右のパディングを少し増やす
+    border-radius: 5px;
+    z-index: 1000;
+    font-size: 12px;
+    max-width: 200px;  // 最大幅を設定
+    white-space: nowrap;  // 改行を防ぐ
+    overflow: hidden;  // オーバーフローを隠す
+    text-overflow: ellipsis;  // テキストが長すぎる場合に省略記号を表示
+    margin-top: 5px;  // 要素の上に少しマージンを追加
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);  // シャドウを追加
 }

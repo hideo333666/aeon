@@ -1,50 +1,84 @@
-$(document).on('turbolinks:load', function() {
-    const today = new Date();
-    const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+$(document).on('turbolinks:load', initializeContributionGrid);
 
-    for (let i = 1; i <= daysInMonth; i++) {
-        const cell = $('<div></div>').addClass('day-cell').attr('data-day', i);
+function initializeContributionGrid() {
+    renderDaysOfMonth();
+    fetchAndRenderContributions();
+}
+
+function renderDaysOfMonth() {
+    const daysInCurrentMonth = getDaysInCurrentMonth();
+
+    for (let day = 1; day <= daysInCurrentMonth; day++) {
+        const cell = createDayCell(day);
         $('#contribution-grid').append(cell);
     }
+}
 
-    var currentUserId = $('.user-info').data('user-id');
+function createDayCell(day) {
+    return $('<div></div>')
+        .addClass('day-cell')
+        .attr('data-day', day)
+        .attr('title', `${day}日: 0`);
+}
+
+function getDaysInCurrentMonth() {
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+}
+
+function fetchAndRenderContributions() {
+    const currentUserId = $('.user-info').data('user-id');
+    const endpoint = `/public/users/${currentUserId}/contribution`;
+
     $.ajax({
-        url: `/public/users/${currentUserId}/contribution`,
+        url: endpoint,
         method: 'GET',
-        data: {
-            user_id: currentUserId
-        },
-        success: function(data) {
-            console.log(data);
-            const completedTasks = data;
-
-            for(let day in completedTasks) {
-                const taskCount = completedTasks[day];
-                console.log(day, taskCount);
-                console.log(`Day: ${day}, Task Count: ${taskCount}`);
-                
-                const date = new Date(day);
-                const dayNumber = date.getDate();
-                
-                const cell = $(`.day-cell[data-day="${dayNumber}"]`);
-                console.log("Selected cell for day:", day, cell.length ? "Exists" : "Does not exist");
-
-                cell.attr('title', `${day}日: ${taskCount}タスク完了`);
-
-                if (taskCount < 3) {
-                    cell.addClass('color-level-1');
-                    console.log('Adding class to', day); 
-                } else if (taskCount < 6) {
-                    cell.addClass('color-level-2');
-                    console.log('Adding class to', day); 
-                } else {
-                    cell.addClass('color-level-3');
-                    console.log('Adding class to', day); 
-                }
-            }
-        },
-        error: function() {
-            console.error('Error fetching completed tasks data');
-        }
+        data: { user_id: currentUserId },
+        success: updateContributionGrid,
+        error: handleContributionFetchError
     });
-});
+}
+
+function updateContributionGrid(data) {
+    for (let date in data) {
+        const taskCount = data[date];
+        const dayNumber = new Date(date).getDate();
+        const cell = $(`.day-cell[data-day="${dayNumber}"]`);
+
+        cell.attr('title', `${date}日: ${taskCount}タスク完了`);
+        cell.addClass(determineColorClass(taskCount));
+    }
+}
+
+function determineColorClass(taskCount) {
+    if (taskCount < 3) return 'color-level-1';
+    if (taskCount < 6) return 'color-level-2';
+    return 'color-level-3';
+}
+
+function handleContributionFetchError() {
+    console.error('Error fetching completed tasks data');
+}
+
+// Tooltip functions (You can remove the console logs if they are not needed)
+function showTooltip(element) {
+    const title = $(element).attr('title');
+    if (!title) return;
+
+    const offset = $(element).offset();
+    $('<div class="tooltip"></div>')
+        .text(title)
+        .css({
+            top: offset.top + $(element).outerHeight(),
+            left: offset.left,
+            display: 'block'
+        })
+        .appendTo('body');
+}
+
+function hideTooltip() {
+    $('.tooltip').remove();
+}
+
+$(document).on('mouseenter', '.day-cell', showTooltip)
+           .on('mouseleave', '.day-cell', hideTooltip);
