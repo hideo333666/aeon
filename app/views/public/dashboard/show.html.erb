@@ -6,11 +6,11 @@
     <div class="col-md-3 project-field">
 
       <div class="actions text-center mt-4">
-        <%= link_to "＋ 新規プロジェクト", new_project_path, class: "custom-link" %>
+        <%= link_to "＋ 新規プロジェクト", new_public_project_path, class: "custom-link" %>
       </div>
 
       <!-- Project Filter Form -->
-      <%= form_with(url: public_dashboard_show_path, method: :get, local: true, html: { class: "gray-background"}) do %>
+      <%= form_with(url: public_dashboard_path, method: :get, local: true, html: { class: "gray-background"}) do %>
         <div class="form-group pj-font">
           <%= label_tag :project_id, "プロジェクトを選択" %>
           <%= select_tag :project_id, options_from_collection_for_select(@projects, "id", "name"), prompt: "プロジェクトを選択", class: "form-control sidebar-select" %>
@@ -25,7 +25,7 @@
       <ul class="mb-4">
         <% @projects.each do |project| %>
           <li class="sidebar-font">
-            <%= link_to project.name, project_path(project), class: "sidebar-font" %>
+            <%= link_to project.name, public_project_path(project), class: "sidebar-font" %>
           </li>
         <% end %>
       </ul>
@@ -37,11 +37,11 @@
       <ul class="list-group mb-4" id="taskList">
         <% @tasks.each do |task| %>
           <li class="custom-task-item">
-            <span class="custom-task-title"><%= link_to task.title, task_path(task), class: "task-link" %></span>
+            <span class="custom-task-title"><%= link_to task.title, public_task_path(task), class: "task-link" %></span>
             <span class="custom-task-due-date">
               <%= task.start_date.strftime("%Y年%m月%d日") %> ~ <%= task.end_date.strftime("%Y年%m月%d日") %>
             </span>
-            <%= check_box_tag "task_completed_#{task.id}", task.id, task.is_checked, class: 'task-completed-checkbox', data: { url: toggle_task_path(task) } %>
+            <%= check_box_tag "task_completed_#{task.id}", task.id, task.is_checked, class: 'task-completed-checkbox', data: { url: toggle_public_task_path(task) } %>
           </li>
         <% end %>
       </ul>

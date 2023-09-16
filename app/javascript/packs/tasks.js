@@ -53,12 +53,12 @@ $(document).on('turbolinks:load', function() {
             $('body').removeClass('modal-open');
             alert(data.message);
 
-            const newTaskLink = $('<a></a>').attr('href', '/tasks/' + data.task.id).text(data.task.title).addClass('task-link');
+            const newTaskLink = $('<a></a>').attr('href', '/public/tasks/' + data.task.id).text(data.task.title).addClass('task-link');
             const checkbox = $('<input>')
               .attr('type', 'checkbox')
               .attr('name', 'task_completed_' + data.task.id)
               .attr('value', data.task.id)
-              .attr('data-url', '/tasks/' + data.task.id + '/toggle')
+              .attr('data-url', '/public/tasks/' + data.task.id + '/toggle')
               .addClass('task-completed-checkbox');
 
             const startDate = new Date(data.task.start_date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -115,7 +115,7 @@ $(document).on('turbolinks:load', function() {
         success: function(data) {
           if (data.success && isChecked) {
             $.ajax({
-              url:'/path/to/update/contribution',
+              url:'`/users/${currentUserId}/contribution`,',
               method: 'POST',
               data: {
                 user_id:currentUserId
@@ -215,7 +215,7 @@ $(document).on('turbolinks:load', function() {
       const endDate = dateRange.endDate.format('YYYY-MM-DD');
 
       $.ajax({
-        url: `/tasks/${taskId}`,
+        url: `/public/tasks/${taskId}`,
         method: 'PATCH',
         data: {
           task: {

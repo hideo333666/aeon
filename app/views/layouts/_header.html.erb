@@ -3,7 +3,7 @@
 <% unless controller_name == "tasks" && action_name == "show" %>
   <header>
     <nav class="navbar navbar-expand-lg custom-header">
-      <%= link_to public_dashboard_show_path, class: "navbar-brand" do %>
+      <%= link_to public_dashboard_path, class: "navbar-brand" do %>
         <%= image_tag "Aeon.png", alt: "Aeon", style: "height: 100px;" %>
       <% end %>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,7 @@
               </li>
             <% end %>
           <% else %>
-            <% [["タスク一覧", tasks_path], ["メンバー管理", "#"]].each do |name, path| %>
+            <% [["タスク一覧", public_tasks_path], ["メンバー管理", "#"]].each do |name, path| %>
               <li class="nav-item">
                 <%= link_to name, path, class: "nav-link" %>
               </li>
@@ -37,7 +37,7 @@
                   <i class="fas fa-user-circle"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                  <%= link_to "マイページ", user_path(current_user), class: "dropdown-item" %>
+                  <%= link_to "マイページ", public_user_path(current_user), class: "dropdown-item" %>
                   <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
                 </div>
               </li>
