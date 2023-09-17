@@ -18,7 +18,7 @@ function createDayCell(day) {
     return $('<div></div>')
         .addClass('day-cell')
         .attr('data-day', day)
-        .attr('title', `${day}日: 0`);
+        .attr('title', `${day}日: タスクはまだ完了していません`);
 }
 
 function getDaysInCurrentMonth() {

@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
   devise_for :admins, path: 'admin'
   devise_for :users
-
+  
+  root 'homes#top'
+  get 'about', to: 'homes#about', as: 'about'
+  
   namespace :public do
-    root 'homes#top'
-    get 'about', to: 'homes#about', as: 'about'
     resources :users, only: [:show, :update]
     resources :tasks do
       member do
