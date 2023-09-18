@@ -13,4 +13,6 @@ class User < ApplicationRecord
         has_many :notes
         has_many :events
         
+        validates :name, presence: true, length: {maximum: 50 }
+        
 end

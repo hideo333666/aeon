@@ -1,31 +1,33 @@
-<h1>マイページ</h1>
-
-<div class="user-info" data-user-id="<%= @user.id %>">
-  <h2>ユーザー情報</h2>
-  <p><strong>ユーザー名：</strong><%= @user.name %></p>
-  <p><strong>メールアドレス：</strong><%= @user.email %></p>
-  <p><strong>登録日：</strong><%= @user.created_at.to_formatted_s(:long) %></p>
-</div>
-
-<div id="weekday-headers">
-  <div>月</div>
-  <div>火</div>
-  <div>水</div>
-  <div>木</div>
-  <div>金</div>
-  <div>土</div>
-  <div>日</div>
-</div>
-
-<div id="contribution-grid"></div>
-
-
-<%= month_calendar events: @events do |date, events| %>
-  <%= date.day %>
-
-  <% events.each do |event| %>
-    <div>
-      <%= event.title %>
-    </div>
+<div class="mypage">
+  <h1>マイページ</h1>
+  
+  <div class="user-info" data-user-id="<%= @user.id %>">
+    <h2>ユーザー情報</h2>
+    <p><strong>ユーザー名：</strong><%= @user.name %></p>
+    <p><strong>メールアドレス：</strong><%= @user.email %></p>
+    <p><strong>登録日：</strong><%= @user.created_at.to_formatted_s(:long) %></p>
+  </div>
+  
+  <div id="weekday-headers">
+    <div>月</div>
+    <div>火</div>
+    <div>水</div>
+    <div>木</div>
+    <div>金</div>
+    <div>土</div>
+    <div>日</div>
+  </div>
+  
+  <div id="contribution-grid"></div>
+  
+  
+  <%= month_calendar events: @events do |date, events| %>
+    <%= date.day %>
+  
+    <% events.each do |event| %>
+      <div>
+        <%= event.title %>
+      </div>
+    <% end %>
   <% end %>
-<% end %>
+</div>

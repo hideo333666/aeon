@@ -8,11 +8,28 @@ class Public::RegistrationsController < Devise::RegistrationsController
   # def new
   #   super
   # end
+  def new
+   if flash[:form_data]
+     @user = User.new(flash[:form_data])
+   else
+      @user = User.new
+    end
+  end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+   def create
+     @user = User.new(user_params)
+     if @user.save
+       @user.send_activation_email
+       flash[:info] = "Please check your email to activate your account."
+       redirect_to root_url
+     else
+       flash[:form_data] = user_params
+       flash[:error_messages] = @user.errors.full_messages
+       redirect_to new_user_registration_path
+     end
+   end
+
 
   # GET /resource/edit
   # def edit
@@ -39,11 +56,20 @@ class Public::RegistrationsController < Devise::RegistrationsController
   # end
 
   protected
-    
-    def after_sign_up_path_for(resource)
-      public_user_path(resource)
-    end
-    
+  
+   def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+   end
+  
+   def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+   end
+   
+   def 
+    after_sign_up_path_for(resource)
+    public_user_path(resource)
+   end
+
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_up_params

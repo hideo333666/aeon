@@ -2,9 +2,11 @@ $(document).on('turbolinks:load', initializeContributionGrid);
 
 function initializeContributionGrid() {
     renderDaysOfMonth();
-    fetchAndRenderContributions();
+    
+    if ($('div').hasClass('mypage')) {
+        fetchAndRenderContributions();
+    }
 }
-
 function renderDaysOfMonth() {
     const daysInCurrentMonth = getDaysInCurrentMonth();
 
