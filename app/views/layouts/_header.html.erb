@@ -1,6 +1,6 @@
-<% custom_class = controller_name == "homes" && ["top", "about"].include?(action_name) ? "custom-header" : "" %>
+<% custom_header_pages = (controller_path == "homes" && ["top", "about"].include?(action_name)) || (controller_path == "public/sessions" && action_name == "new") || (controller_path == "public/registrations" && action_name == "new") %>
 
-<% unless controller_name == "tasks" && action_name == "show" %>
+<% unless controller_path == "public/tasks" && action_name == "show" %>
   <header>
     <nav class="navbar navbar-expand-lg custom-header">
       <%= link_to public_dashboard_path, class: "navbar-brand" do %>
@@ -11,8 +11,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto align-items-center">
-          <% if controller_name == "homes" && ["top", "about"].include?(action_name) %>
-            <% [["TOP", root_path], ["使用方法", about_path], ["サインイン", new_user_registration_path], ["ログイン", new_user_session_path]].each do |name, path| %>
+          
+          <% if custom_header_pages %>
+             <% [["TOP", root_path], ["使用方法", about_path], ["サインイン", new_user_registration_path], ["ログイン", new_user_session_path]].each do |name, path| %>
               <li class="nav-item">
                 <%= link_to name, path, class: "nav-link" %>
               </li>
