@@ -1,11 +1,13 @@
 @use '~bootstrap/scss/bootstrap';
 
+@import 'registrations';
 @import 'header';
 @import 'top';
 @import 'calendar';
 @import 'task';
 @import 'dashboard';
 @import 'contribution';
+
 
 
 ul {

@@ -1,9 +1,9 @@
 class Public::TasksController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :toggle]
 
   def index
-    @tasks = current_user.tasks.all
+    @tasks = current_user.tasks
   end
 
   def show
@@ -19,11 +19,10 @@ class Public::TasksController < ApplicationController
     if @task.save
       render json: { success: true, message: "タスクの作成に成功しました", task: @task }
     else
-      puts "@task.errors.full_messages: #{@task.errors.full_messages}"
-      render json: { success: false, message: @task.errors.full_messages }
+      log_task_errors
+      render json: { success: false, message: format_errors(@task.errors) }
     end
   end
-
 
   def edit
   end
@@ -32,7 +31,8 @@ class Public::TasksController < ApplicationController
     if @task.update(task_params)
       render json: { success: true, message: "タスクの更新に成功しました" }
     else
-      render json: { success: false, message: @task.errors.full_messages.join(", ") }, status: 422
+      log_task_errors
+      render json: { success: false, message: format_errors(@task.errors) }, status: 422
     end
   end
 
@@ -40,21 +40,18 @@ class Public::TasksController < ApplicationController
     @task.destroy
     redirect_to tasks_url, notice: "タスクの削除に成功しました"
   end
-  
+
   def toggle
-    @task = Task.find(params[:id])
-  
     if @task.update(task_params)
       render json: { success: true }
     else
-      puts @task.errors.full_messages
-      render json: { success: false, error: @task.errors.full_messages.join(', ') }, status: 422
+      log_task_errors
+      render json: { success: false, error: format_errors(@task.errors) }, status: 422
     end
   end
 
   private
 
-  # before_actionで使用
   def set_task
     @task = current_user.tasks.find(params[:id])
   end
@@ -62,4 +59,13 @@ class Public::TasksController < ApplicationController
   def task_params
     params.require(:task).permit(:title, :description, :due_date, :priority, :is_checked, :start_date, :end_date, :project_id)
   end
+  
+  def log_task_errors
+    Rails.logger.error "Task errors: #{format_errors(@task.errors)}"
+  end
+
+  def format_errors(errors)
+    errors.full_messages.join(", ")
+  end
 end
+

@@ -1,6 +1,6 @@
 class Public::EventsController < ApplicationController
   before_action :set_project
-  
+  before_action :authenticate_current_user!
   def index
     @events = Event.all
   end

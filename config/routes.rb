@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :admins, path: 'admin'
-  devise_for :users
+  
+  devise_for :users, controllers: {
+    registrations: "public/registrations",
+    sessions: 'public/sessions'
+  }
   
   root 'homes#top'
   get 'about', to: 'homes#about', as: 'about'
