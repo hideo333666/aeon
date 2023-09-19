@@ -3,6 +3,10 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    unless @user == current_user
+      flash[:alert] = "不正なアクセスです"
+      redirect_to public_dashboard_path and return
+    end
     @events = @user.events
     @events = Event.all
   end
