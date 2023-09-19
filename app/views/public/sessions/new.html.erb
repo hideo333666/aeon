@@ -1,37 +1,36 @@
 <div class="sign-form">
-    <h2 class="sign-font text-center mb-4">ログイン</h2>
+  <h2 class="sign-font text-center mb-4">ログイン</h2>
 
-    <!-- エラーメッセージを直接表示 -->
-    <% if flash[:error_messages].present? %>
-      <div class="login-alert-center mt-2 text-center">
-        <%= flash[:error_messages]&.join(", ") %>
-      </div>
-    <% end %>
-
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'mx-auto', style: 'max-width: 400px;' }) do |f| %>
-      <div class="form-group">
-        <%= f.label :メールアドレス %>
-        <%= f.email_field :email, class: 'form-control', autofocus: true, autocomplete: "email" %>
-      </div>
-
-      <div class="form-group">
-        <%= f.label :パスワード %>
-        <%= f.password_field :password, class: 'form-control', autocomplete: "current-password" %>
-      </div>
-
-      <% if devise_mapping.rememberable? %>
-        <div class="form-group form-check">
-          <%= f.check_box :remember_me, class: 'form-check-input' %>
-          <%= f.label :remember_me, "ログイン状態を保持", class: 'form-check-label' %>
-        </div>
-      <% end %>
-
-      <div class="actions">
-        <%= f.submit "ログイン", class: 'btn btn-block custom-btn' %>
-      </div>
-    <% end %>
-
-    <div class="mt-4 text-center">
-      すでにアカウントを持っている方は <%= link_to "新規登録", new_user_registration_path %> してください
+  <% if flash[:error_messages].present? %>
+    <div class="login-alert-center mt-2 text-center">
+      <%= flash[:error_messages].join(", ") %>
     </div>
+  <% end %>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'mx-auto', style: 'max-width: 400px;' }) do |f| %>
+    <div class="form-group">
+      <%= f.label :メールアドレス %>
+      <%= f.email_field :email, class: 'form-control', autofocus: true, autocomplete: "email" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :パスワード %>
+      <%= f.password_field :password, class: 'form-control', autocomplete: "current-password" %>
+    </div>
+
+    <% if devise_mapping.rememberable? %>
+      <div class="form-group form-check">
+        <%= f.check_box :remember_me, class: 'form-check-input' %>
+        <%= f.label :remember_me, "ログイン状態を保持", class: 'form-check-label' %>
+      </div>
+    <% end %>
+
+    <div class="actions">
+      <%= f.submit "ログイン", class: 'btn btn-block custom-btn' %>
+    </div>
+  <% end %>
+
+  <div class="mt-4 text-center">
+    すでにアカウントを持っている方は <%= link_to "新規登録", new_user_registration_path %> してください
+  </div>
 </div>
