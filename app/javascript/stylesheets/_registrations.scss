@@ -1,5 +1,8 @@
 .sign-form {
-  padding-top: 20px;
+  padding-top: 80px;
+}
+.sign-font {
+  font-weight: bold;
 }
 
 .custom-btn {
@@ -30,4 +33,27 @@
 .sign-form .form-control:focus {
   border-color: #4169e1; 
   box-shadow: none;
+}
+
+.alert.alert-danger {
+  font-size: 14px;
+  color: #ff0000;
+  font-weight: bold;
+  
+  background-color: #ffeeee;
+  padding: 10px;
+  max-width: 300px;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.login-alert-center {
+  font-size: 12px;
+  color: #ff0000;
+  font-weight: bold;
+  
+  background-color: #ffeeee;
+  max-width: 400px;
+  padding: 10px;
+  margin: 10px auto;
 }

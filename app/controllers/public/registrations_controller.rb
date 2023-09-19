@@ -20,9 +20,9 @@ class Public::RegistrationsController < Devise::RegistrationsController
    def create
      @user = User.new(user_params)
      if @user.save
-       @user.send_activation_email
-       flash[:info] = "Please check your email to activate your account."
-       redirect_to root_url
+       sign_in @user
+       flash[:info] = "Successfully registered! Welcome to our platform."
+       redirect_to public_dashboard_path
      else
        flash[:form_data] = user_params
        flash[:error_messages] = @user.errors.full_messages

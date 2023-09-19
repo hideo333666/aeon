@@ -10,6 +10,9 @@ module Aeon
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
+    
+    # Set the default locale to Japanese
+    config.i18n.default_locale = :ja
 
     # Configuration for the application, engines, and railties goes here.
     #
