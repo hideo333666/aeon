@@ -15,7 +15,7 @@ class Public::ProjectsController < ApplicationController
   def create 
     @project = current_user.projects.build(project_params)
     if @project.save
-      redirect_to @project, notice: "プロジェクトの作成に成功しました"
+      redirect_to dashboard_path, notice: "プロジェクトの作成に成功しました"
     else
       render :new
     end

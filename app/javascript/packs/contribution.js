@@ -30,7 +30,7 @@ function getDaysInCurrentMonth() {
 
 function fetchAndRenderContributions() {
     const currentUserId = $('.user-info').data('user-id');
-    const endpoint = `/public/users/${currentUserId}/contribution`;
+    const endpoint = `/users/${currentUserId}/contribution`;
 
     $.ajax({
         url: endpoint,
