@@ -1,5 +1,10 @@
-<h1>Edit Project</h1>
+<%= form_with(model: @project, url: project_path(@project), method: :patch, local: true) do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+  <%= form.submit "プロジェクトを更新", class: "btn btn-primary" %>
+<% end %>
 
-<%= render 'form', project: @project %>
 
 <%= link_to 'Back', projects_path %>

@@ -1,24 +1,35 @@
-<h1>プロジェクト一覧</h1>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newProjectModal">
+  新規プロジェクト作成
+</button>
+<%= render "new_project_modal" %>
 
-<table>
-  <thead>
-    <tr>
-      <th>プロジェクト名</th>
-      <th>操作</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @projects.each do |project| %>
-      <tr>
-        <td><%= project.name %></td>
-        <td>
-          <%= link_to "詳細", project_path(project) %>
-          <%= link_to "編集", edit_project_path(project) %>
-          <%= link_to "削除", project_path(project), method: :delete, data: { confirm: "本当に削除しますか？" } %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<h1>プロジェクト</h1>
+<div class="project-cards">
+  <% @projects.each do |project| %>
+    <div class="project-card" draggable="true">
+      <!-- プロジェクト名 -->
+      <div class="project-name"><%= project.name %></div>
 
-<%= link_to "新規プロジェクト作成", new_project_path %>
+      <!-- アクションアイコン -->
+      <div class="project-actions">
+        <!-- お気に入りボタン (星アイコン) -->
+        <button class="btn btn-link favorite-btn">
+          <i class="fas fa-star" style="color: #707070;"></i>
+        </button>
+
+        <div class="dropdown d-inline-block">
+          <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton-<%= project.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa-solid fa-bars" style="color: #707070;"></i>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-<%= project.id %>">
+            <%= link_to "詳細", project_path(project), class: "dropdown-item" %>
+            <%= link_to "編集", edit_project_path(project), class: "dropdown-item" %>
+            <%= link_to "削除", project_path(project), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "dropdown-item" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+

@@ -24,8 +24,16 @@ class Public::ProjectsController < ApplicationController
   def edit
   end
   
+  def update
+    if @project.update(project_params)
+        redirect_to project_path(@project), notice: "プロジェクトの更新に成功しました"
+    else
+      render :edit
+    end
+  end
+  
   def destroy
-    @project.desroy
+    @project.destroy
     redirect_to projects_url, notice: "プロジェクトの削除に成功しました"
   end
   
