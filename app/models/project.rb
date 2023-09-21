@@ -5,5 +5,10 @@ class Project < ApplicationRecord
   has_many :notes
   has_many :events
 
-  validates :name, presence: true, length: { minimum: 3, maximum: 50 }
+  validates :name, presence: true, length: { maximum: 50 }
+  
+  def self.ransackable_attributes(auth_object = nil)
+    ["description", "id", "name", "user_id"]
+  end
+
 end

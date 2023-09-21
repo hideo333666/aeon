@@ -60,6 +60,7 @@ gem 'acts-as-taggable-on', '~> 8.1'
 gem 'acts_as_list'
 gem 'simple_calendar'
 gem 'rails-i18n', '~> 6.0.0'
+gem 'ransack'
 
 gem 'dotenv-rails'
 group :production do

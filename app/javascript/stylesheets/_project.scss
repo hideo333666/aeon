@@ -24,8 +24,20 @@
   font-weight: bold;
 }
 
+.project-description {
+  min-height: 50px;
+  pading: 5px;
+  display: flex;
+  align-items: center;
+  
+}
+
 .project-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.pjlist-button {
+  padding-left: 50px;
 }
