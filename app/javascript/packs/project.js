@@ -1,37 +1,73 @@
 let dragged;
 
-document.addEventListener("drag", function(event) {}, false);
+$(document).on({
+    'dragstart': function(event) {
+        dragged = event.target;
+        $(event.target).css('opacity', 0.5);
+    },
+    'dragend': function(event) {
+        $(event.target).css('opacity', '');
+    },
+    'dragover dragenter dragleave drop': function(event) {
+        event.preventDefault();
+        
+        const target = $(event.target);
 
-document.addEventListener("dragstart", function(event) {
-  dragged = event.target;
-  event.target.style.opacity = 0.5;
-}, false);
+        if (target.hasClass('project-card')) {
+            if (event.type === 'dragenter') {
+                target.css('background', 'purple');
+            } else if (event.type === 'dragleave' || event.type === 'drop') {
+                target.css('background', '');
+            }
 
-document.addEventListener("dragend", function(event) {
-  event.target.style.opacity = "";
-}, false);
+            if (event.type === 'drop') {
+                dragged.remove();
+                target.append(dragged);
+            }
+        }
+    }
+});
 
-document.addEventListener("dragover", function(event) {
-  event.preventDefault();
-}, false);
+function createInputElement(value) {
+    return `<input type="text" value="${value}">`;
+}
 
-document.addEventListener("dragenter", function(event) {
-  if (event.target.className === "project-card") {
-    event.target.style.background = "purple";
-  }
-}, false);
+function createTextareaElement(value) {
+    return `<textarea>${value}</textarea>`;
+}
 
-document.addEventListener("dragleave", function(event) {
-  if (event.target.className === "project-card") {
-    event.target.style.background = "";
-  }
-}, false);
+$(document).on('shown.bs.modal', '[id^="editProjectModal"]', function() {
+    const modal = $(this);
 
-document.addEventListener("drop", function(event) {
-  event.preventDefault();
-  if (event.target.className === "project-card") {
-    event.target.style.background = "";
-    dragged.parentNode.removeChild(dragged);
-    event.target.appendChild(dragged);
-  }
-}, false);
+    const nameElement = modal.find('.project-name');
+    const descriptionElement = modal.find('.project-description');
+
+    nameElement.html(createInputElement(nameElement.text()));
+    descriptionElement.html(createTextareaElement(descriptionElement.text()));
+
+    modal.find('.modal-footer').prepend('<button id="saveProjectChanges" class="btn btn-primary">変更を保存</button>');
+}).on('click', '#saveProjectChanges', function() {
+    const modal = $(this).closest('.modal');
+    const projectId = modal.data('project-id');
+    const name = modal.find('.project-name input').val();
+    const description = modal.find('.project-description textarea').val();
+
+    $.ajax({
+        url: `/projects/${projectId}`,
+        method: 'PATCH',
+        data: {
+            project: {
+                name: name,
+                description: description
+            }
+        },
+        dataType: 'json',
+        success: function() {
+            modal.modal('hide');
+            location.reload();
+        },
+        error: function() {
+            alert('編集に失敗しました。');
+        }
+    });
+});

@@ -1,7 +1,11 @@
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newProjectModal">
   新規プロジェクト作成
-</button>
-<%= render "new_project_modal" %>
+</button
+
+<%= form_with url: projects_path, method: :get, local: true, class: 'search-form' do %>
+  <%= text_field_tag :search, params[:search], placeholder: 'プロジェクト名で検索...' %>
+  <%= submit_tag "検索", class: "btn btn-secondary" %>
+<% end %>
 
 <h1>プロジェクト</h1>
 <div class="project-cards">
@@ -17,18 +21,16 @@
           <i class="fas fa-star" style="color: #707070;"></i>
         </button>
 
-        <div class="dropdown d-inline-block">
-          <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton-<%= project.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="d-inline-block">
+          <button class="btn btn-link" type="button" data-toggle="modal" data-target="#editProjectModal-<%= project.id %>">
             <i class="fa-solid fa-bars" style="color: #707070;"></i>
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-<%= project.id %>">
-            <%= link_to "詳細", project_path(project), class: "dropdown-item" %>
-            <%= link_to "編集", edit_project_path(project), class: "dropdown-item" %>
-            <%= link_to "削除", project_path(project), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "dropdown-item" %>
-          </div>
         </div>
       </div>
     </div>
+    <%= render "new_project_modal" %>
+    <%= render 'edit_project_modal', project: project %>
+    
   <% end %>
 </div>
 

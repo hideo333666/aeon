@@ -22,7 +22,7 @@ class Public::RegistrationsController < Devise::RegistrationsController
      if @user.save
        sign_in @user
        flash[:info] = "Successfully registered! Welcome to our platform."
-       redirect_to public_dashboard_path
+       redirect_to dashboard_path
      else
        flash[:form_data] = user_params
        flash[:error_messages] = @user.errors.full_messages
@@ -67,7 +67,7 @@ class Public::RegistrationsController < Devise::RegistrationsController
    
    def 
     after_sign_up_path_for(resource)
-    public_user_path(resource)
+    puser_path(resource)
    end
 
 

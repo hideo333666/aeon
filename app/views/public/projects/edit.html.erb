@@ -3,6 +3,10 @@
     <%= form.label :name %>
     <%= form.text_field :name %>
   </div>
+  <div>
+    <%= form.label :description, "説明" %>
+    <%= form.text_area :description %>
+  </div>
   <%= form.submit "プロジェクトを更新", class: "btn btn-primary" %>
 <% end %>
 
