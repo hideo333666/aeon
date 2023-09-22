@@ -10,7 +10,7 @@ $(document).on({
     },
     'dragover dragenter dragleave drop': function(event) {
         event.preventDefault();
-        
+
         const target = $(event.target);
 
         if (target.hasClass('project-card')) {
@@ -61,7 +61,7 @@ $(document).on('shown.bs.modal', '[id^="editProjectModal"]', function() {
                 description: description
             }
         },
-        dataType: 'json',
+        dataType: 'script',
         success: function() {
             modal.modal('hide');
             location.reload();
@@ -69,5 +69,54 @@ $(document).on('shown.bs.modal', '[id^="editProjectModal"]', function() {
         error: function() {
             alert('編集に失敗しました。');
         }
+    });
+});
+
+$(document).ready(function() {
+    $('#submit-button').on('click', function(e) {
+        e.preventDefault();  // フォームのデフォルトの送信を防ぎます
+
+        const projectName = $('#project-name').val();
+        const projectDescription = $('#project-description').val();
+
+        // Ajaxリクエストを送信してプロジェクトを作成します
+        $.ajax({
+            url: '/projects',
+            method: 'POST',
+            data: {
+                project: {
+                    name: projectName,
+                    description: projectDescription
+                }
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === "success") {
+                    location.reload();  // ページをリロードして成功メッセージを表示します
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+                console.log("HTTP Status: " + jqXHR.status);  // HTTPステータスコードをコンソールにログします
+                console.log("Error Thrown: " + errorThrown); 
+                
+                if (jqXHR.status === 422) {
+                    const errors = jqXHR.responseJSON.errors;
+                    // エラーメッセージを表示します
+                    if (errors.name) {
+                        $('#name-error').text(errors.name.join(", "));
+                    }
+                    if (errors.description) {
+                        $('#description-error').text(errors.description.join(", "));
+                    }
+                    // 一般的なエラーメッセージを表示します
+                    $('#ajax-error').removeClass('d-none').text('プロジェクトの作成に失敗しました。エラーを修正して再試行してください。');
+                } else {
+                    console.error('Ajax request failed:', textStatus, errorThrown);
+                    // 一般的なエラーメッセージを表示します
+                    $('#ajax-error').removeClass('d-none').text('プロジェクトの作成に失敗しました。後でもう一度お試しください。');
+                }
+            }
+        });
     });
 });

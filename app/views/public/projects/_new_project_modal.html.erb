@@ -1,15 +1,32 @@
 <div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="newProjectModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newProjectModalLabel">新規プロジェクト</h5>
+        <h5 class="modal-title" id="newProjectModalLabel">新規プロジェクト作成</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <%= render partial: 'public/projects/form', locals: { project: Project.new } %>
+        <div id="ajax-error" class="alert alert-danger d-none" role="alert"></div>
+
+        <%= form_with(model: Project.new, url: projects_path, local: true, html: { class: 'p-4', id: "newProjectForm" }) do |form| %>
+          <div class="form-group">
+            <%= form.label :name, class: 'font-weight-bold' %>
+            <%= form.text_field :name, class: 'form-control', id: "project-name" %>
+            <div class="text-danger" id="name-error"></div>
+          </div>
+        
+          <div class="form-group">
+            <%= form.label :description, "説明", class: 'font-weight-bold' %>
+            <%= form.text_area :description, class: 'form-control', rows: 5, id: "project-description" %>
+            <div class="text-danger" id="description-error"></div>
+          </div>
+          <%= form.submit "プロジェクトを作成", class: "btn btn-primary mt-3" %>
+        <% end %>
       </div>
     </div>
   </div>
 </div>
+<%= javascript_pack_tag 'project' %>
+

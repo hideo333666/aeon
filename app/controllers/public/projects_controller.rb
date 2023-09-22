@@ -18,11 +18,18 @@ class Public::ProjectsController < ApplicationController
   def create
     @project = current_user.projects.build(project_params)
     if @project.save
-      redirect_to dashboard_path, notice: "プロジェクトの作成に成功しました"
+      respond_to do |format|
+        format.html { redirect_to dashboard_path, notice: "プロジェクトの作成に成功しました" }
+        format.json { render json: { status: "success", message: "プロジェクトの作成に成功しました" } }
+      end
     else
-      render :new
+      respond_to do |format|
+        format.html { redirect_to projects_path, alert: @project.errors.full_messages.join(",") }
+        format.json { render json: { status: "error", errors: @project.errors.messages }, status: :unprocessable_entity }
+      end
     end
   end
+
 
   def edit
   end
@@ -32,14 +39,24 @@ class Public::ProjectsController < ApplicationController
       if @project.update(project_params)
         format.html { redirect_to projects_path, notice: "プロジェクトの編集に成功しました" }
         format.js   { head :no_content }
+        format.any  { head :no_content }
       else
-        format.html { render :edit }
         format.js   {render plain: "編集に失敗しました", status: :unprocessable_entity }
+        format.any  { render plain: "編集に失敗しました", status: :unprocessable_entity } 
       end
     end
   end
-
   
+  def validate
+    project = Project.new(project_params)
+    if project.valid?
+       render json: { valid: true }
+    else
+      flash[:error_messages] = project.errors.full_messages
+      render json: { errors: project.errors.messages }, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     @project.destroy
     redirect_to projects_url, notice: "プロジェクトの削除に成功しました"

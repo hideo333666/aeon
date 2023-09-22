@@ -16,9 +16,10 @@ Rails.application.routes.draw do
         patch :toggle
       end
     end
-    resources :projects 
-      get "dashboard", to: "dashboard#show", as: "dashboard"
-      get 'users/:id/contribution', to: 'users#contribution', as: 'user_contribution'
+    resources :projects
+    get "dashboard", to: "dashboard#show", as: "dashboard"
+    get 'users/:id/contribution', to: 'users#contribution', as: 'user_contribution'
+    post 'validate_project', to: 'projects#validate'
   end
 end
 
