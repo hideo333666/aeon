@@ -20,6 +20,7 @@ import "bootstrap";
 import "../stylesheets/application";
 import "./tasks";
 import "./contribution";
+import "./project";
 
 Rails.start()
 Turbolinks.start()

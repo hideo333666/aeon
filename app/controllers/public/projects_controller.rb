@@ -15,20 +15,32 @@ class Public::ProjectsController < ApplicationController
     @project = Project.new
   end
 
-  def create
-    @project = current_user.projects.build(project_params)
-    if @project.save
-      respond_to do |format|
-        format.html { redirect_to dashboard_path, notice: "プロジェクトの作成に成功しました" }
-        format.json { render json: { status: "success", message: "プロジェクトの作成に成功しました" } }
-      end
-    else
-      respond_to do |format|
-        format.html { redirect_to projects_path, alert: @project.errors.full_messages.join(",") }
-        format.json { render json: { status: "error", errors: @project.errors.messages }, status: :unprocessable_entity }
+def create
+  @project = current_user.projects.build(project_params)
+  if @project.save
+    respond_to do |format|
+      format.html { redirect_to dashboard_path, notice: "プロジェクトの作成に成功しました" }
+      format.json { render json: { status: "success", message: "プロジェクトの作成に成功しました" } }
+    end
+  else
+    respond_to do |format|
+      format.html { redirect_to projects_path, alert: @project.errors.full_messages.join(",") }
+      format.json do
+        # Log the error messages
+        Rails.logger.info @project.errors.messages.inspect
+        render json: { 
+          status: "error", 
+          errors: { 
+            name: @project.errors.full_messages_for(:name), 
+            description: @project.errors.full_messages_for(:description) 
+          } 
+        }, status: :unprocessable_entity
       end
     end
   end
+end
+
+
 
 
   def edit
@@ -71,4 +83,14 @@ class Public::ProjectsController < ApplicationController
     def project_params
       params.require(:project).permit(:name, :description)
     end
+    
+  def format_errors(model)
+    errors_hash = {}
+    model.errors.messages.each do |attribute, errors|
+      field_name = model.class.human_attribute_name(attribute)
+      errors_hash[attribute] = errors.map { |error_message| "#{field_name} #{error_message}" }.join(", ")
+    end
+    errors_hash
+  end
+
 end

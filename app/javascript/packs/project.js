@@ -1,3 +1,4 @@
+console.log('JavaScript file is loaded');
 let dragged;
 
 $(document).on({
@@ -28,22 +29,25 @@ $(document).on({
     }
 });
 
-function createInputElement(value) {
-    return `<input type="text" value="${value}">`;
+function createInputElement(value, placeholder) {
+    return `<input type="text" value="${value}" placeholder="${placeholder}">`;
 }
 
-function createTextareaElement(value) {
-    return `<textarea>${value}</textarea>`;
+function createTextareaElement(value, placeholder) {
+    return `<textarea placeholder="${placeholder}">${value}</textarea>`;
 }
 
 $(document).on('shown.bs.modal', '[id^="editProjectModal"]', function() {
     const modal = $(this);
 
-    const nameElement = modal.find('.project-name');
-    const descriptionElement = modal.find('.project-description');
+    const nameElement = modal.find('.project-name input');
+    const descriptionElement = modal.find('.project-description textarea');
+    
+    nameElement.attr('placeholder', '名前');
+    descriptionElement.attr('placeholder', '説明');
 
-    nameElement.html(createInputElement(nameElement.text()));
-    descriptionElement.html(createTextareaElement(descriptionElement.text()));
+    // nameElement.html(createInputElement(nameElement.text(), '名前'));
+    // descriptionElement.html(createTextareaElement(descriptionElement.text(), '説明'));
 
     modal.find('.modal-footer').prepend('<button id="saveProjectChanges" class="btn btn-primary">変更を保存</button>');
 }).on('click', '#saveProjectChanges', function() {
@@ -72,17 +76,28 @@ $(document).on('shown.bs.modal', '[id^="editProjectModal"]', function() {
     });
 });
 
+function displayErrors(errors) {
+    $('#name-error').text(errors.name.join(","));
+    $('#description-error').text(errors.description.join(","));
+}
+
+
 $(document).ready(function() {
-    $('#submit-button').on('click', function(e) {
+    $('#submit-button').off('click').on('click', function(e) {
         e.preventDefault();  // フォームのデフォルトの送信を防ぎます
 
         const projectName = $('#project-name').val();
         const projectDescription = $('#project-description').val();
+        
+        const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
         // Ajaxリクエストを送信してプロジェクトを作成します
         $.ajax({
             url: '/projects',
             method: 'POST',
+            headers: {
+                'X-CSRF-Token': csrfToken
+            },
             data: {
                 project: {
                     name: projectName,
@@ -92,28 +107,14 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 if (response.status === "success") {
-                    location.reload();  // ページをリロードして成功メッセージを表示します
+                    location.reload();  
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR.responseText);
-                console.log("HTTP Status: " + jqXHR.status);  // HTTPステータスコードをコンソールにログします
-                console.log("Error Thrown: " + errorThrown); 
-                
-                if (jqXHR.status === 422) {
+                if (jqXHR.responseJSON && jqXHR.responseJSON.errors) {
                     const errors = jqXHR.responseJSON.errors;
-                    // エラーメッセージを表示します
-                    if (errors.name) {
-                        $('#name-error').text(errors.name.join(", "));
-                    }
-                    if (errors.description) {
-                        $('#description-error').text(errors.description.join(", "));
-                    }
-                    // 一般的なエラーメッセージを表示します
-                    $('#ajax-error').removeClass('d-none').text('プロジェクトの作成に失敗しました。エラーを修正して再試行してください。');
+                    displayErrors(errors);  // エラーを表示する関数を呼び出します
                 } else {
-                    console.error('Ajax request failed:', textStatus, errorThrown);
-                    // 一般的なエラーメッセージを表示します
                     $('#ajax-error').removeClass('d-none').text('プロジェクトの作成に失敗しました。後でもう一度お試しください。');
                 }
             }

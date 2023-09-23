@@ -22,11 +22,11 @@
             <%= form.text_area :description, class: 'form-control', rows: 5, id: "project-description" %>
             <div class="text-danger" id="description-error"></div>
           </div>
-          <%= form.submit "プロジェクトを作成", class: "btn btn-primary mt-3" %>
+          <%= form.submit "プロジェクトを作成", class: "btn btn-primary mt-3", id: "submit-button" %>
         <% end %>
       </div>
     </div>
   </div>
 </div>
-<%= javascript_pack_tag 'project' %>
+
 

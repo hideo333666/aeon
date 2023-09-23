@@ -6,7 +6,7 @@ class Project < ApplicationRecord
   has_many :events
 
   validates :name, presence: true, length: { minimum: 2, maximum: 100 }
-  validates :description, presence: true, length: { minimum: 2, maximum: 1000 }
+  validates :description, length: { minimum: 2, maximum: 1000, allow_blank: true }
     
   def self.ransackable_attributes(auth_object = nil)
     ["description", "id", "name", "user_id"]
