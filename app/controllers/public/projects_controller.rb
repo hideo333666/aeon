@@ -15,54 +15,51 @@ class Public::ProjectsController < ApplicationController
     @project = Project.new
   end
 
-def create
-  @project = current_user.projects.build(project_params)
-  if @project.save
-    respond_to do |format|
-      format.html { redirect_to dashboard_path, notice: "プロジェクトの作成に成功しました" }
-      format.json { render json: { status: "success", message: "プロジェクトの作成に成功しました" } }
-    end
-  else
-    respond_to do |format|
-      format.html { redirect_to projects_path, alert: @project.errors.full_messages.join(",") }
-      format.json do
-        # Log the error messages
-        Rails.logger.info @project.errors.messages.inspect
-        render json: { 
-          status: "error", 
-          errors: { 
-            name: @project.errors.full_messages_for(:name), 
-            description: @project.errors.full_messages_for(:description) 
-          } 
-        }, status: :unprocessable_entity
+  def create
+    @project = current_user.projects.build(project_params)
+    if @project.save
+      respond_to do |format|
+        format.html { redirect_to dashboard_path, notice: "プロジェクトの作成に成功しました" }
+        format.json { render json: { status: "success", message: "プロジェクトの作成に成功しました" } }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to projects_path, alert: @project.errors.full_messages.join(",") }
+        format.json do
+          # Log the error messages
+          Rails.logger.info @project.errors.messages.inspect
+          render json: {
+            status: "error",
+            errors: {
+              name: @project.errors.full_messages_for(:name),
+              description: @project.errors.full_messages_for(:description)
+            }
+          }, status: :unprocessable_entity
+        end
       end
     end
   end
-end
-
-
-
 
   def edit
   end
 
   def update
-  respond_to do |format|
+    respond_to do |format|
       if @project.update(project_params)
         format.html { redirect_to projects_path, notice: "プロジェクトの編集に成功しました" }
         format.js   { head :no_content }
         format.any  { head :no_content }
       else
-        format.js   {render plain: "編集に失敗しました", status: :unprocessable_entity }
-        format.any  { render plain: "編集に失敗しました", status: :unprocessable_entity } 
+        format.js   { render plain: "編集に失敗しました", status: :unprocessable_entity }
+        format.any  { render plain: "編集に失敗しました", status: :unprocessable_entity }
       end
     end
   end
-  
+
   def validate
     project = Project.new(project_params)
     if project.valid?
-       render json: { valid: true }
+      render json: { valid: true }
     else
       flash[:error_messages] = project.errors.full_messages
       render json: { errors: project.errors.messages }, status: :unprocessable_entity
@@ -76,14 +73,14 @@ end
 
   private
 
-    def set_project
-      @project = Project.find(params[:id])
-    end
+  def set_project
+    @project = Project.find(params[:id])
+  end
 
-    def project_params
-      params.require(:project).permit(:name, :description)
-    end
-    
+  def project_params
+    params.require(:project).permit(:name, :description)
+  end
+
   def format_errors(model)
     errors_hash = {}
     model.errors.messages.each do |attribute, errors|
@@ -92,5 +89,4 @@ end
     end
     errors_hash
   end
-
 end

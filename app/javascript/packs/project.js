@@ -42,12 +42,7 @@ $(document).on('shown.bs.modal', '[id^="editProjectModal"]', function() {
 
     const nameElement = modal.find('.project-name input');
     const descriptionElement = modal.find('.project-description textarea');
-    
-    nameElement.attr('placeholder', '名前');
-    descriptionElement.attr('placeholder', '説明');
 
-    // nameElement.html(createInputElement(nameElement.text(), '名前'));
-    // descriptionElement.html(createTextareaElement(descriptionElement.text(), '説明'));
 
     modal.find('.modal-footer').prepend('<button id="saveProjectChanges" class="btn btn-primary">変更を保存</button>');
 }).on('click', '#saveProjectChanges', function() {
@@ -88,7 +83,7 @@ $(document).ready(function() {
 
         const projectName = $('#project-name').val();
         const projectDescription = $('#project-description').val();
-        
+
         const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
         // Ajaxリクエストを送信してプロジェクトを作成します
@@ -107,7 +102,7 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 if (response.status === "success") {
-                    location.reload();  
+                    location.reload();
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {

@@ -1,5 +1,5 @@
 <div class="modal fade" id="editProjectModal-<%= project.id %>" data-project-id="<%= project.id %>" ...>
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog project-modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="editProjectModalLabel">プロジェクトを更新</h5>
@@ -9,17 +9,21 @@
       </div>
       <div class="modal-body">
         <%= form_with(model: project, url: project_path(project), method: :patch) do |form| %>
-          <div class="project-name">
-            <%= form.label :name %>
-            <%= form.text_field :name, placeholder: "プロジェクト名を入力してください" %>
+          <div class="form-group row project-name">
+            <%= form.label :name, "プロジェクト名", class: "font-weight-bold" %>
+            <%= form.text_field :name, placeholder: "プロジェクト名を入力してください", class: "form-control" %>
           </div>
-          <div class="project-description">
-            <%= form.label :description, "説明" %>
-            <%= form.text_area :description, placeholder: "プロジェクトの説明を入力してください" %>
+          <div class="form-group row project-description">
+            <%= form.label :description, "プロジェクトの説明", class: "font-weight-bold" %>
+            <%= form.text_area :description, placeholder: "プロジェクトの説明を入力してください", class: "form-control" %>
           </div>
-          <%= form.submit "プロジェクトを更新", class: "btn btn-primary" %>
+          <div class="text-center">
+            <%= link_to '削除', project_path(project), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger ml-2' %>
+            <%= form.submit "プロジェクトを更新", class: "btn btn-primary" %>
+          </div>
         <% end %>
       </div>
     </div>
   </div>
 </div>
+

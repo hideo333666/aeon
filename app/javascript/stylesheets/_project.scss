@@ -42,3 +42,36 @@
   max-width: 80%;
   margin: 0 auto;
 }
+
+// モーダルレイアウト用（プロジェクトページ）
+
+.modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: none;
+}
+
+.modal-header .close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
+.modal-body {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.project-modal-dialog {
+    msx-width: 80%
+}
+
+.project-modal-body {
+    padding: 2rem;
+}
+
+.project-name input,
+.project-description textarea {
+    width: 100%;
+}
