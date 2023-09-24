@@ -46,6 +46,8 @@ $(document).on('shown.bs.modal', '[id^="editProjectModal"]', function() {
 
     modal.find('.modal-footer').prepend('<button id="saveProjectChanges" class="btn btn-primary">変更を保存</button>');
 }).on('click', '#saveProjectChanges', function() {
+    console.log('Button clicked');
+   
     const modal = $(this).closest('.modal');
     const projectId = modal.data('project-id');
     const name = modal.find('.project-name input').val();
@@ -54,26 +56,47 @@ $(document).on('shown.bs.modal', '[id^="editProjectModal"]', function() {
     $.ajax({
         url: `/projects/${projectId}`,
         method: 'PATCH',
-        data: {
+        headers: {
+            'Accept': 'application/json',
+        },
+        contentType: 'application/json',
+        data: JSON.stringify({
             project: {
                 name: name,
                 description: description
             }
-        },
-        dataType: 'script',
-        success: function() {
+        }),
+        dataType: 'json',
+        success: function(response) {
+            console.log('Ajax request successful', response);
             modal.modal('hide');
             location.reload();
         },
-        error: function() {
-            alert('編集に失敗しました。');
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Ajax request failed', jqXHR);
+            console.log('Error status:', textStatus);  
+            console.log('Error thrown:', errorThrown); 
+            console.log('Response Text:', jqXHR.responseText);
+            
+            const response = JSON.parse(jqXHR.responseText);
+            if (response && response.errors) {
+                displayErrors(response.errors);
+            } else {
+                alert('プロジェクトの編集に失敗しました');
+            }
         }
     });
 });
 
 function displayErrors(errors) {
-    $('#name-error').text(errors.name.join(","));
-    $('#description-error').text(errors.description.join(","));
+    if (errors.name) {
+        const nameErrorsArray = Array.isArray(errors.name) ? errors.name : errors.name.split(", ");
+        $('#name-error').text(nameErrorsArray.join(", "));
+    }
+    if (errors.description) {
+        const descriptionErrorsArray = Array.isArray(errors.description) ? errors.description : errors.description.split(", ");
+        $('#description-error').text(descriptionErrorsArray.join(", "));
+    }
 }
 
 
@@ -108,7 +131,7 @@ $(document).ready(function() {
             error: function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.responseJSON && jqXHR.responseJSON.errors) {
                     const errors = jqXHR.responseJSON.errors;
-                    displayErrors(errors);  // エラーを表示する関数を呼び出します
+                    displayErrors(errors);  
                 } else {
                     $('#ajax-error').removeClass('d-none').text('プロジェクトの作成に失敗しました。後でもう一度お試しください。');
                 }

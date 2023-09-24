@@ -8,9 +8,9 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
-// import $ from "jquery";
-// window.jQuery = $;
-// window.$ = $;
+import $ from "jquery";
+window.jQuery = $;
+window.$ = $;
 
 import moment from "moment";
 import "daterangepicker";
