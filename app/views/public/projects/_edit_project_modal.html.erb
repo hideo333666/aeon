@@ -1,4 +1,4 @@
-<div class="modal fade" id="editProjectModal-<%= project.id %>" data-project-id="<%= project.id %>" ...>
+<div class="modal fade" id="editProjectModal-<%= project.id %>" data-project-id="<%= project.id %>" data-type="edit" ...>
   <div class="modal-dialog project-modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,20 +8,20 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= form_with(model: project, url: project_path(project), method: :patch, local: false, format: :json) do |form| %>
+        <%= form_with(model: project, url: project_path(project), method: :patch, local: true, format: :json, data: { type: 'edit' }) do |form| %>
           <div class="form-group row project-name">
             <%= form.label :name, "プロジェクト名", class: "font-weight-bold" %>
             <%= form.text_field :name, placeholder: "プロジェクト名を入力してください", class: "form-control" %>
-            <div class="text-danger" id="name-error"></div>
+            <div class="text-danger" id="edit-name-error"></div>
           </div>
           <div class="form-group row project-description">
             <%= form.label :description, "プロジェクトの説明", class: "font-weight-bold" %>
             <%= form.text_area :description, placeholder: "プロジェクトの説明を入力してください", class: "form-control" %>
-            <div class="text-danger" id="description-error"></div>
+            <div class="text-danger" id="edit-description-error"></div>
           </div>
           <div class="text-center">
             <%= link_to '削除', project_path(project), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger ml-2' %>
-            <input type="submit" name="commit" value="プロジェクトを更新" class="btn btn-primary" data-disable-with="プロジェクトを更新" id="saveProjectChanges">
+            <%= form.button "プロジェクトを更新", class: "btn btn-primary", data: { disable_with: "プロジェクトを更新" }, id: "saveProjectChanges" %>
           </div>
         <% end %>
       </div>

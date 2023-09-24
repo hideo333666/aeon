@@ -43,23 +43,24 @@ class Public::ProjectsController < ApplicationController
   def edit
   end
 
-  def update
-    if @project.update(project_params)
-      respond_to do |format|
-        format.html { redirect_to projects_path, notice: "プロジェクトの編集に成功しました" }
-        format.json { render json: { status: "success" }, status: :ok }
-      end
-    else
-      respond_to do |format|
-        format.json do
-          render json: {
-            status: "error",
-            errors: format_errors(@project)
-          }, status: :unprocessable_entity
-        end
+def update
+  if @project.update(project_params)
+    respond_to do |format|
+      format.html { redirect_to projects_path, notice: "プロジェクトの編集に成功しました" }
+      format.json { render json: { status: "success" }, status: :ok }
+    end
+  else
+    respond_to do |format|
+      format.html { redirect_to projects_path, alert: @project.errors.full_messages.join(",") }
+      format.json do
+        render json: {
+          status: "error",
+          errors: format_errors(@project)
+        }, status: :unprocessable_entity
       end
     end
   end
+end
 
 
   def validate
