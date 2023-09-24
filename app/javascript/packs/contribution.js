@@ -8,15 +8,26 @@ function initializeContributionGrid() {
     }
 }
 function renderDaysOfMonth() {
-    const daysInCurrentMonth = getDaysInCurrentMonth();
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const dayOfWeek = firstDayOfMonth.getDay();  // 0 (Sunday) to 6 (Saturday)
+    
+    const daysInPreviousMonth = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+    const daysToShowFromPreviousMonth = dayOfWeek === 0 ? 6 : dayOfWeek - 1;  // If Sunday, show 6 days from previous month, else show (dayOfWeek - 1) days
 
+    for (let day = daysInPreviousMonth - daysToShowFromPreviousMonth + 1; day <= daysInPreviousMonth; day++) {
+        const cell = createDayCell(day, 'previous-month');
+        $('#contribution-grid').append(cell);
+    }
+
+    const daysInCurrentMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
     for (let day = 1; day <= daysInCurrentMonth; day++) {
-        const cell = createDayCell(day);
+        const cell = createDayCell(day, 'current-month');
         $('#contribution-grid').append(cell);
     }
 }
 
-function createDayCell(day) {
+function createDayCell(day, monthClass) {
     return $('<div></div>')
         .addClass('day-cell')
         .attr('data-day', day)
@@ -62,24 +73,33 @@ function handleContributionFetchError() {
     console.error('Error fetching completed tasks data');
 }
 
-// Tooltip functions (You can remove the console logs if they are not needed)
-function showTooltip(element) {
+// ツールチップ関数(ホバー時に情報を表示させる)
+function showTooltip(event) {
+    const element = event.currentTarget;
     const title = $(element).attr('title');
     if (!title) return;
 
     const offset = $(element).offset();
-    $('<div class="tooltip"></div>')
+    var tooltipElement = $('<div class="tooltip"></div>')
         .text(title)
         .css({
             top: offset.top + $(element).outerHeight(),
             left: offset.left,
-            display: 'block'
+            opacity: 0,
+            background: '#696969',
+            color: 'white',
+            border: '1px solid black',
+            borderRadius: '4px',
+            padding: '5px'
         })
-        .appendTo('body');
+        .appendTo('body')
+        .animate({ opacity: 1 }, 200);
 }
 
 function hideTooltip() {
-    $('.tooltip').remove();
+    $('.tooltip').animate({ opacity: 0 }, 200, function() {  
+        $(this).remove(); 
+    });
 }
 
 $(document).on('mouseenter', '.day-cell', showTooltip)

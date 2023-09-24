@@ -50,19 +50,3 @@
   font-size: 0;  
 }
 
-.tooltip {
-    display: none;
-    position: absolute;
-    background-color: #333;
-    color: white;
-    padding: 5px 8px;  // 左右のパディングを少し増やす
-    border-radius: 5px;
-    z-index: 1000;
-    font-size: 12px;
-    max-width: 200px;  // 最大幅を設定
-    white-space: nowrap;  // 改行を防ぐ
-    overflow: hidden;  // オーバーフローを隠す
-    text-overflow: ellipsis;  // テキストが長すぎる場合に省略記号を表示
-    margin-top: 5px;  // 要素の上に少しマージンを追加
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);  // シャドウを追加
-}
