@@ -1,49 +1,65 @@
-.project-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
+//プロジェクトカード用CSS
 .project-card {
-  width: 150px;
-  height: 150px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  background-color: #f9f9f9;
-  cursor: pointer;
-  transition: transform 0.3s ease;
+    min-width: 320px;
+    min-height: 160px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s;
+    margin: 0 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,1);
 }
 
 .project-card:hover {
-  transform: scale(1.05);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.project-name {
-  padding-bottom: 10px;
-  font-weight: bold;
+.project-card .card-body {
+    padding: 13px 16px;
 }
 
-.project-description {
-  min-height: 50px;
-  pading: 5px;
-  display: flex;
-  align-items: center;
+.project-card .project-name {
+    color: #4a4a4a;
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 10px;
+    white-space: nowrap;  
+    overflow: hidden;  
+    text-overflow: ellipsis;  
+    max-width: 90%;
+    display: block;
+}
 
+.project-card .project-description {
+    font-size: 14px;
+    color: #9b9b9b;
+    min-height: 50px;
+    padding: 5px;  
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    max-height: 4.5em;
 }
 
 .project-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .p-4 {
-  max-width: 80%;
-  margin: 0 auto;
+    max-width: 80%;
+    margin: 0 auto;
 }
 
-// モーダルレイアウト用（プロジェクトページ）
+/* モーダルレイアウト用（プロジェクトページ） */
 
 .modal-header {
     display: flex;
@@ -64,7 +80,7 @@
 }
 
 .project-modal-dialog {
-    msx-width: 80%
+    max-width: 50%;  /* スペルミスを修正 */
 }
 
 .project-modal-body {
