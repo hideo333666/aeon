@@ -21,6 +21,7 @@ import "../stylesheets/application";
 import "./tasks";
 import "./contribution";
 import "./project";
+import "./sortable_init";
 
 Rails.start()
 Turbolinks.start()
