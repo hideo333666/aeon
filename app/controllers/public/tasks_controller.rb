@@ -2,10 +2,6 @@ class Public::TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_task, only: [:show, :edit, :update, :destroy, :toggle]
 
-  def index
-    @tasks = current_user.tasks
-  end
-
   def show
     @hide_header = true
   end

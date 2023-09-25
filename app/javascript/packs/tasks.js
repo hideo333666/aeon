@@ -26,8 +26,7 @@ $(document).on('turbolinks:load', function() {
 
     $(document).off('submit', '#new_task, .edit_task').on('submit', '#new_task, .edit_task', function(e) {
       if (isSubmitting) return false;
-
-      console.log("Submitting task form via Ajax");
+      
       e.preventDefault();
 
       const submitButton = $(this).find('input[type="submit"]');
@@ -171,7 +170,6 @@ $(document).on('turbolinks:load', function() {
       const initialStartDate = modal.find('input[name="task[start_date]"]').val();
       const initialEndDate = modal.find('input[name="task[end_date]"]').val();
 
-
       titleElement.html(createInputElement(titleElement.text()));
       descriptionElement.find('strong').after(createTextareaElement(descriptionElement.text().replace('説明：', '')));
 
@@ -205,7 +203,6 @@ $(document).on('turbolinks:load', function() {
     });
 
     $(document).on('click', '#saveTaskChanges', function() {
-      console.log("handler is working!");
       const modal = $('#taskDetailModal');
       const taskId = modal.data('task-id');
       const title = modal.find('h1 input').val();

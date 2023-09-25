@@ -7,9 +7,6 @@
         <%= image_tag "Aeon.png", alt: "Aeon", style: "height: 100px;" %>
       <% end %>
 
-      
-      <%= link_to "プロジェクトリスト", projects_path, class: "nav-link" %>
-
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -22,7 +19,7 @@
               </li>
             <% end %>
           <% else %>
-            <% [["タスク一覧", tasks_path], ["メンバー管理", "#"]].each do |name, path| %>
+            <% [["プロジェクトリスト", projects_path], ["メンバー管理", "#"]].each do |name, path| %>
               <li class="nav-item">
                 <%= link_to name, path, class: "nav-link" %>
               </li>
