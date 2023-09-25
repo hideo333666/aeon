@@ -1,6 +1,6 @@
 class Public::UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:show, :update, :destroy]
 
   def show
     @user = User.find(params[:id])
@@ -11,7 +11,7 @@ class Public::UsersController < ApplicationController
     @events = @user.events
     @events = Event.all
   end
-  
+
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
@@ -21,7 +21,16 @@ class Public::UsersController < ApplicationController
       render :show
     end
   end
-    
+  
+  def destroy
+    if @user.destroy
+      redirect_to root_path, notice: "アカウントは正常に削除されました"
+    else
+      flash.now[:alert] = "アカウントを削除できませんでした"
+      render :show
+    end
+  end
+
   def contribution
      user = User.find(params[:id])
     # ユーザーが完了したタスクのend_dateを取得
@@ -33,11 +42,15 @@ class Public::UsersController < ApplicationController
     # 必要なデータをJSONとして返す
     render json: contributions
   end
-  
+
   private
   
+  def set_user
+    @user = User.find(params[:id])
+  end
+
   def user_params
     params.require(:user).permit(:name, :email)
   end
-  
+
 end
