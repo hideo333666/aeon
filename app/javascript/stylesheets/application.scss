@@ -1,1 +1,19 @@
 @use '~bootstrap/scss/bootstrap';
+
+@import 'user';
+@import 'search';
+@import 'registrations';
+@import 'header';
+@import 'top';
+@import 'calendar';
+@import 'project';
+@import 'task';
+@import 'dashboard';
+@import 'contribution';
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+

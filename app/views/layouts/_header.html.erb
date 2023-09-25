@@ -1,0 +1,51 @@
+<% custom_header_pages = (controller_path == "homes" && ["top", "about"].include?(action_name)) || (controller_path == "public/sessions" && action_name == "new") || (controller_path == "public/registrations" && action_name == "new") %>
+
+<% unless controller_path == "public/tasks" && action_name == "show" %>
+  <header>
+    <nav class="navbar navbar-expand-lg custom-header">
+      <%= link_to dashboard_path, class: "navbar-brand" do %>
+        <%= image_tag "Aeon.png", alt: "Aeon", style: "height: 100px;" %>
+      <% end %>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto align-items-center">
+          <% if custom_header_pages %>
+            <% [["TOP", root_path], ["使用方法", about_path], ["サインイン", new_user_registration_path], ["ログイン", new_user_session_path]].each do |name, path| %>
+              <li class="nav-item">
+                <%= link_to name, path, class: "nav-link" %>
+              </li>
+            <% end %>
+          <% else %>
+            <% [["プロジェクトリスト", projects_path], ["メンバー管理", "#"]].each do |name, path| %>
+              <li class="nav-item">
+                <%= link_to name, path, class: "nav-link" %>
+              </li>
+            <% end %>
+
+            <li class="nav-item">
+              <%= link_to "#", class: "nav-link d-flex flex-column align-items-center" do %>
+                <i class='fas fa-bell'></i>
+                <span class="d-block text-center">お知らせ</span>
+              <% end %>
+            </li>
+            
+            <% if current_user %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user-circle"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                  <%= link_to "マイページ", user_path(current_user), class: "dropdown-item" %>
+                  <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+                </div>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+  </header>
+<% end %>

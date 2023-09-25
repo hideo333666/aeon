@@ -1,0 +1,27 @@
+<div class="container mt-5">
+  <h1 class="mb-4">ユーザー管理</h1>
+
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>ユーザー名</th>
+        <th>Email</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td>
+            <%= link_to '削除', admin_user_path(user), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'btn btn-outline-danger' %>
+</div>

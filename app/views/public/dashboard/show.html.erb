@@ -1,0 +1,57 @@
+<div class="container mt-5 no-margin">
+
+  <!-- Filter and Projects Section -->
+  <div class="row">
+    <!-- Projects Column -->
+    <div class="col-md-3 project-field">
+
+      <div class="actions text-center mt-4">
+        <%= link_to "＋ 新規プロジェクト", "#", class: "custom-link", role: "button", data: { toggle: "modal", target: "#newProjectModal" } %>
+      </div>
+
+      <!-- Project Filter Form -->
+      <%= form_with(url: dashboard_path, method: :get, local: true, html: { class: "gray-background"}) do %>
+        <div class="form-group pj-font">
+          <%= label_tag :project_id, "プロジェクトを選択" %>
+          <%= select_tag :project_id, options_from_collection_for_select(@projects, "id", "name"), prompt: "プロジェクトを選択", class: "form-control sidebar-select" %>
+        </div>
+        <%= submit_tag "フィルタ", class: "btn btn-primary mb-3" %>
+      <% end %>
+
+      <!-- Project List -->
+      <h2 class="h4 mb-3 pj-font">プロジェクト
+        <span class="project-count"><%= @projects.count %>プロジェクト</span>
+      </h2>
+      <ul class="mb-4">
+        <% @projects.each do |project| %>
+          <li class="sidebar-font">
+            <%= link_to project.name, project_path(project), class: "sidebar-font" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <!-- Tasks Column -->
+    <div class="col-md-9">
+      <h2 class="h4 mb-3 mt-5">タスク一覧</h2>
+      <ul class="list-group mb-4" id="taskList">
+        <% @tasks.each do |task| %>
+          <li class="custom-task-item">
+            <span class="custom-task-title"><%= link_to task.title, task_path(task), class: "task-link" %></span>
+            <span class="custom-task-due-date">
+              <%= task.start_date.strftime("%Y年%m月%d日") %> ~ <%= task.end_date.strftime("%Y年%m月%d日") %>
+            </span>
+            <%= check_box_tag "task_completed_#{task.id}", task.id, task.is_checked, class: 'task-completed-checkbox', data: { url: toggle_task_path(task) } %>
+          </li>
+        <% end %>
+      </ul>
+       <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#taskModal">新しいタスクを作成</button>
+    </div>
+  </div>
+  <%= render 'public/projects/new_project_modal' %>
+  <%= render 'task_modal' %>
+  <%= render 'task_detail_modal' %>
+
+
+</div>
+

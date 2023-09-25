@@ -1,0 +1,16 @@
+<h1>New Event</h1>
+<%= form_for [@project, @event] do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+
+  <%= f.label :description %>
+  <%= f.text_area :description %>
+
+  <%= f.label :start_time %>
+  <%= f.datetime_select :start_time %>
+
+  <%= f.label :end_time %>
+  <%= f.datetime_select :end_time %>
+
+  <%= f.submit 'Create' %>
+<% end %>

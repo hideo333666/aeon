@@ -1,0 +1,46 @@
+ja:
+  activerecord:
+    attributes:
+      user:
+        name: "ニックネーム"
+        email: "メールアドレス"
+        password: "パスワード"
+      project: 
+        name: "名前"
+        description: "説明"
+    errors:
+      models:
+        user:
+          attributes:
+            name:
+              blank: "を入力してください"
+            email:
+              blank: "を入力してください"
+              taken: "はすでに使用されています"
+              invalid: "の形式が正しくありません"
+            password:
+              blank: "を入力してください"
+              confirmation: "とパスワード確認が一致しません"
+              too_short: "は%{count}文字以上で入力してください"
+              too_long: "は%{count}文字以内で入力してください"
+        project:
+          attributes:
+            name:
+              blank: "を入力してください"
+              too_short: "は%{count}文字以上で入力してください"
+            description:
+              blank: "を入力してください"
+              too_short: "は%{count}文字以上で入力してください"
+              
+  devise:
+    sessions:
+      signed_in: "ログインしました。"
+      signed_out: "ログアウトしました。"
+    registrations:
+      signed_up: "アカウント登録が完了しました。"
+      updated: "アカウント情報を変更しました。"
+    passwords:
+      send_instructions: "パスワードのリセット方法を数分以内にメールでご連絡します。"
+      updated: "パスワードが正しく変更されました。"
+    confirmations:
+      confirmed: "メールアドレスが確認されました。"

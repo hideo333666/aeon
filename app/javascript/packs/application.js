@@ -8,11 +8,20 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
-import "jquery";
+import $ from "jquery";
+window.jQuery = $;
+window.$ = $;
+
+import moment from "moment";
+import "daterangepicker";
+
 import "popper.js";
 import "bootstrap";
-import "../stylesheets/application"; 
-
+import "../stylesheets/application";
+import "./tasks";
+import "./contribution";
+import "./project";
+import "./sortable_init";
 
 Rails.start()
 Turbolinks.start()
