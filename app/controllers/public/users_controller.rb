@@ -11,6 +11,16 @@ class Public::UsersController < ApplicationController
     @events = Event.all
   end
   
+  def update
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to user_path(@user), notice: 'ユーザー情報が更新されました'
+    else
+      flash.now[:alert] = "エラーが発生しました"
+      render :show
+    end
+  end
+    
   def contribution
      user = User.find(params[:id])
     # ユーザーが完了したタスクのend_dateを取得
@@ -23,5 +33,10 @@ class Public::UsersController < ApplicationController
     render json: contributions
   end
   
+  private
+  
+  def user_params
+    params.require(:user).permit(:name, :email)
+  end
   
 end

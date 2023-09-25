@@ -7,8 +7,8 @@
 
 .custom-btn {
   background: linear-gradient(to bottom, #000, #000 50%, #333 50%, #333);
-  background-size: 100% 200%;  /* 100% の幅と 200% の高さを持つ背景を設定 */
-  background-position: 0 100%;  /* 初期位置を下に設定 */
+  background-size: 100% 200%;  
+  background-position: 0 100%; 
   color: white;
   border: none;
   transition: background-position 0.3s ease-in-out, color 0.3s ease-in-out;
