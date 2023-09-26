@@ -55,6 +55,10 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+group :development, :test do
+  gem 'rspec-rails', '~> 5.0'
+end
+
 gem 'devise'
 gem 'acts-as-taggable-on', '~> 8.1'
 gem 'acts_as_list'
@@ -63,6 +67,7 @@ gem 'rails-i18n', '~> 6.0.0'
 gem 'ransack'
 
 gem 'dotenv-rails'
+
 group :production do
   gem 'mysql2'
 end
