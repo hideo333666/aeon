@@ -2,11 +2,10 @@
 
 <% unless controller_path == "public/tasks" && action_name == "show" %>
   <header>
-    <nav class="navbar navbar-expand-lg custom-header">
-      <%= link_to dashboard_path, class: "navbar-brand" do %>
-        <%= image_tag "Aeon.png", alt: "Aeon", style: "height: 100px;" %>
+    <nav class="navbar navbar-expand-lg custom-header darkAmber no-padding">
+      <%= link_to dashboard_path, class: "navbar-brand no-padding" do %>
+        <%= image_tag "Aeon.png", alt: "Aeon", class: "image-bg", style: "height: 110px;" %>
       <% end %>
-
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

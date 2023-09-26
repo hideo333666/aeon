@@ -1,4 +1,4 @@
-<div class="container bg-custom">
+<div class="container-fluid silverLake">
   <div class="d-flex align-items-center mb-3 pt-5">
     <div class="row w-100">
       <div class="col-md-6">
@@ -24,7 +24,7 @@
     <% @projects.each do |project| %>
       <div class="col-md-4 mb-2">
         <div class="project-card project-card" draggable="true">
-          <div class="card-body">
+          <div class="card-body unicorn">
             <div class="project-name"><%= project.name %></div>
             <div class="project-description">
               <%= project.description.to_s.gsub("\n", " ") %>
