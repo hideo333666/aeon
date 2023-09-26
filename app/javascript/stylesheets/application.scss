@@ -10,10 +10,25 @@
 @import 'task';
 @import 'dashboard';
 @import 'contribution';
+@import 'hue';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+}
 
 ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+.bg-custom {
+    background-color: #d3d3d3;
 }
 

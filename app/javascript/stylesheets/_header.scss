@@ -1,6 +1,6 @@
-.navbar.custom-header {
-  background-color: #15151e;
-}
+//.navbar.custom-header {
+//  background-color: #15151e;
+//}
 
 .navbar.custom-header .navbar-nav .nav-link {
   color: white;
@@ -16,4 +16,9 @@
 
 .navbar.custom-header a.nav-link:hover {
   color: #ddd;
+}
+
+.image-bg {
+  background-image: -webkit-linear-gradient(top, #15140F 0%, #34312C 97%);
+  background-image: linear-gradient(-180deg, #15140F 0%, #34312C 97%); 
 }
