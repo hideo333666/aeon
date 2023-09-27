@@ -1,51 +1,53 @@
 <div class="container-fluid silverLake">
-  <div class="d-flex align-items-center mb-3 pt-5">
-    <div class="row w-100">
-      <div class="col-md-6">
-        <form class="search-form-004">
-          <%= search_form_for @q do |f| %>
-            <%= f.search_field :name_cont, placeholder: "プロジェクトを探す", class: "search-input-004" %>
-            <button type="submit" class="search-button-004"></button>
-          <% end %>
-        </form>
-      </div>
-
-      <div class="col-md-6 text-right">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newProjectModal">
-          新規プロジェクト作成
-        </button>
+  <div class="padding-container">
+    <div class="d-flex align-items-center mb-3 pt-5">
+      <div class="row w-100">
+        <div class="col-md-6">
+          <form class="search-form-004">
+            <%= search_form_for @q do |f| %>
+              <%= f.search_field :name_cont, placeholder: "プロジェクトを探す", class: "search-input-004" %>
+              <button type="submit" class="search-button-004"></button>
+            <% end %>
+          </form>
+        </div>
+  
+        <div class="col-md-6 text-right">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newProjectModal">
+            新規プロジェクト作成
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-
-  <h2 class="project-title">プロジェクト</h2>
-
-  <div class="row" id="project-cards">
-    <% @projects.each do |project| %>
-      <div class="col-md-4 mb-2">
-        <div class="project-card project-card" draggable="true">
-          <div class="card-body unicorn">
-            <div class="project-name"><%= project.name %></div>
-            <div class="project-description">
-              <%= project.description.to_s.gsub("\n", " ") %>
-            </div>
-            <!-- アクションアイコン -->
-            <div class="project-actions">
-              <!-- お気に入りボタン (星アイコン) -->
-              <button class="btn btn-link favorite-btn">
-                <i class="fas fa-star" style="color: #707070;"></i>
-              </button>
-              <div class="d-inline-block">
-                <button class="btn btn-link" type="button" data-toggle="modal" data-target="#editProjectModal-<%= project.id %>">
-                  <i class="fa-solid fa-bars" style="color: #707070;"></i>
+  
+    <h2 class="project-title">プロジェクト</h2>
+  
+    <div class="row" id="project-cards">
+      <% @projects.each do |project| %>
+        <div class="col-md-4 mb-2">
+          <div class="project-card project-card" draggable="true">
+            <div class="card-body unicorn">
+              <div class="project-name"><%= project.name %></div>
+              <div class="project-description">
+                <%= project.description.to_s.gsub("\n", " ") %>
+              </div>
+              <!-- アクションアイコン -->
+              <div class="project-actions">
+                <!-- お気に入りボタン (星アイコン) -->
+                <button class="btn btn-link favorite-btn">
+                  <i class="fas fa-star" style="color: #707070;"></i>
                 </button>
+                <div class="d-inline-block">
+                  <button class="btn btn-link" type="button" data-toggle="modal" data-target="#editProjectModal-<%= project.id %>">
+                    <i class="fa-solid fa-bars" style="color: #707070;"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+          <%= render "new_project_modal" %>
+          <%= render 'edit_project_modal', project: project %>
         </div>
-        <%= render "new_project_modal" %>
-        <%= render 'edit_project_modal', project: project %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
