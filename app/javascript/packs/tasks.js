@@ -14,20 +14,20 @@ function initializeDateRangePicker() {
 }
 
 $(document).on('turbolinks:load', function() {
-  //日付範囲ピッカーの初期化
+  // 日付範囲ピッカーの初期化
   initializeDateRangePicker();
-  //モーダルの背景とモーダルのpenクラスの削除
+  // モーダルの背景とモーダルのpenクラスの削除
   $('#taskModal').on('hidden.bs.modal', function() {
     $('.modal-backdrop').remove();
     $('body').removeClass('modal-open');
   });
-  //タスクハンドラが初期化されていない場合にのみ、以下の処理
+  // タスクハンドラが初期化されていない場合にのみ、以下の処理
   if (!window.taskHandlerInitialized) {
     let isSubmitting = false;
-    //新しいタスクまたは編集タスクのフォームが送信された時の処理を設定
+    // 新しいタスクまたは編集タスクのフォームが送信された時の処理を設定
     $(document).off('submit', '#new_task, .edit_task').on('submit', '#new_task, .edit_task', function(e) {
       if (isSubmitting) return false;
-      
+
       e.preventDefault();
 
       const submitButton = $(this).find('input[type="submit"]');
@@ -37,41 +37,43 @@ $(document).on('turbolinks:load', function() {
 
       const priorityValue = $(this).find('select[name="task[priority]"]').val();
       const formData = $(this).serialize() + `&task[priority]=${priorityValue}`;
-      //AJAXリクエストを実行
+      // AJAXリクエストを実行
       $.ajax({
-        url: $(this).attr('action'), //フォームのアクション属性をURLとして使用します
+        url: $(this).attr('action'),
         method: 'POST',
         data: formData,
         dataType: 'json',
         complete: function() {
           isSubmitting = false;
         },
-        success: function(data) {  //リクエストが成功した時の処理
+        success: function(data) {
           if (data.success) {
             $('#taskModal').modal('hide');
             $('.modal-backdrop').remove();
             $('body').removeClass('modal-open');
             alert(data.message);
 
-            const newTaskLink = $('<a></a>').attr('href', '/tasks/' + data.task.id).text(data.task.title).addClass('task-link');
-            const checkbox = $('<input>')
-              .attr('type', 'checkbox')
-              .attr('name', 'task_completed_' + data.task.id)
-              .attr('value', data.task.id)
-              .attr('data-url', '/tasks/' + data.task.id + '/toggle')
-              .addClass('task-completed-checkbox');
-
             const startDate = new Date(data.task.start_date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
             const endDate = new Date(data.task.end_date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
-            const dateRange = $('<span></span>').text(`${startDate} ~ ${endDate}`).addClass('custom-task-due-date');
 
-            const newTask = $('<li></li>')
-              .addClass('custom-task-item')
-              .append(newTaskLink)
-              .append(dateRange)
-              .append(checkbox);
-            $('#taskList').append(newTask);
+            const newTaskHtml = `
+              <div class="col-md-4 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <a href="/tasks/${data.task.id}" class="task-link">${data.task.title}</a>
+                    </h5>
+                    <p class="card-text">${startDate} ~ ${endDate}</p>
+                    <div class="form-check">
+                      <input type="checkbox" name="task_completed_${data.task.id}" value="${data.task.id}" data-url="/tasks/${data.task.id}/toggle" class="task-completed-checkbox" id="task_completed_${data.task.id}">
+                      <label class="form-check-label" for="task_completed_${data.task.id}">完了</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
 
+            $('#taskList').append(newTaskHtml);
           } else {
             alert('エラーが発生しました:' + data.message);
           }
@@ -99,7 +101,7 @@ $(document).on('turbolinks:load', function() {
       const taskId = $(this).val();
       const isChecked = $(this).prop('checked');
       const url = $(this).data('url');
-      const taskElement = $(this).closest('li');
+      const taskElement = $(this).closest('.card');
       
       var currentUserId = $('.user-info').data('user-id');
       
