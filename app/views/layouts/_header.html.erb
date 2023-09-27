@@ -12,7 +12,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto align-items-center">
           <% if custom_header_pages %>
-            <% [["TOP", root_path], ["使用方法", about_path], ["サインイン", new_user_registration_path], ["ログイン", new_user_session_path]].each do |name, path| %>
+            <% [["TOP", root_path], ["About", about_path], ["サインイン", new_user_registration_path], ["ログイン", new_user_session_path]].each do |name, path| %>
               <li class="nav-item">
                 <%= link_to name, path, class: "nav-link" %>
               </li>

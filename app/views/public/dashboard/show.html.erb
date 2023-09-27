@@ -1,31 +1,24 @@
-<div class="container mt-5 no-margin">
-
-  <!-- Filter and Projects Section -->
-  <div class="row">
-    <!-- Projects Column -->
-    <div class="col-md-3 project-field">
-
+<div class="container-fluid mt-5 no-margin">
+  <div class="row silverLake">
+    <!-- プロジェクトフォーム -->
+    <div class="col-md-2 project-field">
       <div class="actions text-center mt-4">
         <%= link_to "＋ 新規プロジェクト", "#", class: "custom-link", role: "button", data: { toggle: "modal", target: "#newProjectModal" } %>
       </div>
-
-      <!-- Project Filter Form -->
-      <%= form_with(url: dashboard_path, method: :get, local: true, html: { class: "gray-background"}) do %>
+      <%= form_with(url: dashboard_path, method: :get, local: true, html: { class: "pj-form-padding"}) do %>
         <div class="form-group pj-font">
           <%= label_tag :project_id, "プロジェクトを選択" %>
           <%= select_tag :project_id, options_from_collection_for_select(@projects, "id", "name"), prompt: "プロジェクトを選択", class: "form-control sidebar-select" %>
         </div>
         <%= submit_tag "フィルタ", class: "btn btn-primary mb-3" %>
       <% end %>
-
-      <!-- Project List -->
       <h2 class="h4 mb-3 pj-font">プロジェクト
         <span class="project-count"><%= @projects.count %>プロジェクト</span>
       </h2>
       <ul class="mb-4">
         <% @projects.each do |project| %>
           <li class="sidebar-font">
-            <%= link_to project.name, project_path(project), class: "sidebar-font" %>
+            <%= project.name %>
           </li>
         <% end %>
       </ul>

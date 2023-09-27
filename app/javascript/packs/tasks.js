@@ -14,16 +14,17 @@ function initializeDateRangePicker() {
 }
 
 $(document).on('turbolinks:load', function() {
+  //日付範囲ピッカーの初期化
   initializeDateRangePicker();
-
+  //モーダルの背景とモーダルのpenクラスの削除
   $('#taskModal').on('hidden.bs.modal', function() {
     $('.modal-backdrop').remove();
     $('body').removeClass('modal-open');
   });
-
+  //タスクハンドラが初期化されていない場合にのみ、以下の処理
   if (!window.taskHandlerInitialized) {
     let isSubmitting = false;
-
+    //新しいタスクまたは編集タスクのフォームが送信された時の処理を設定
     $(document).off('submit', '#new_task, .edit_task').on('submit', '#new_task, .edit_task', function(e) {
       if (isSubmitting) return false;
       
@@ -36,16 +37,16 @@ $(document).on('turbolinks:load', function() {
 
       const priorityValue = $(this).find('select[name="task[priority]"]').val();
       const formData = $(this).serialize() + `&task[priority]=${priorityValue}`;
-
+      //AJAXリクエストを実行
       $.ajax({
-        url: $(this).attr('action'),
+        url: $(this).attr('action'), //フォームのアクション属性をURLとして使用します
         method: 'POST',
         data: formData,
         dataType: 'json',
         complete: function() {
           isSubmitting = false;
         },
-        success: function(data) {
+        success: function(data) {  //リクエストが成功した時の処理
           if (data.success) {
             $('#taskModal').modal('hide');
             $('.modal-backdrop').remove();

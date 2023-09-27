@@ -19,8 +19,6 @@
 
     <div class="form-actions">
       <%= f.submit "変更を保存", id: "saveTaskDetails", class: 'btn btn-primary' %>
-      <%= link_to '削除', task_path(@task), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
-      <%= link_to '戻る', tasks_path, class: 'btn btn-secondary' %>
     </div>
   </div>
 <% end %>
