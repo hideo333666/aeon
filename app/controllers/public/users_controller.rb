@@ -23,7 +23,7 @@ class Public::UsersController < ApplicationController
   end
   
   def destroy
-    @user.tasks.destroy_all?
+    @user.tasks.destroy_all
     
     if @user.destroy
       redirect_to root_path, notice: "アカウントは正常に削除されました"
