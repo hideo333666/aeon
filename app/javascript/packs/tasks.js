@@ -5,7 +5,7 @@ function initializeDateRangePicker() {
       locale: {
         format: 'YYYY-MM-DD'
       },
-      opens: 'left'
+      opens: 'left',
     }, function(start, end, label) {
       $('input[name="task[start_date]"]').val(start.format('YYYY-MM-DD'));
       $('input[name="task[end_date]"]').val(end.format('YYYY-MM-DD'));
