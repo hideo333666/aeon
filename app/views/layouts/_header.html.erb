@@ -9,7 +9,7 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="collapse navbar-collapse pr-3" id="navbarNav">
         <ul class="navbar-nav ml-auto align-items-center">
           <% if custom_header_pages %>
             <% [["TOP", root_path], ["About", about_path], ["サインイン", new_user_registration_path], ["ログイン", new_user_session_path]].each do |name, path| %>
@@ -31,7 +31,6 @@
               </a>
               
               <div class="dropdown-menu" aria-labelledby="notificationDropdown" id="notifications-container">
-        
               </div>
             </li>
             

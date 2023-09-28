@@ -1,5 +1,6 @@
 @use '~bootstrap/scss/bootstrap';
 
+
 @import 'user';
 @import 'search';
 @import 'registrations';
@@ -11,6 +12,7 @@
 @import 'dashboard';
 @import 'contribution';
 @import 'hue';
+@import 'notifications';
 
 * {
     margin: 0;
