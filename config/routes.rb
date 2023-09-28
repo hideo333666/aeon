@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     resources :projects
     get "dashboard", to: "dashboard#show", as: "dashboard"
     get 'users/:id/contribution', to: 'users#contribution', as: 'user_contribution'
+    get 'notifications', to: 'notifications#index', as: 'notifications'
     post 'validate_project', to: 'projects#validate'
   end
 end
