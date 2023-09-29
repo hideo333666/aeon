@@ -24,12 +24,9 @@ Rails.application.routes.draw do
       end
     end
     resources :projects
+    resources :notifications, only: [:index, :update]
     get "dashboard", to: "dashboard#show", as: "dashboard"
     get "users/:id/contribution", to: "users#contribution", as: "user_contribution"
-    get "notifications", to: "notifications#index", as: "notifications"
-    get "notifications/unred_count", to: "notifications#unread_count", as: "unread_notification_count"
-    post "notifications/mark_as_read", to: "notifications#mark_as_read", as: "mark_notifications_as_read"
-    
     post "validate_project", to: "projects#validate"
   end
 end

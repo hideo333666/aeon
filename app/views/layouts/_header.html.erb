@@ -26,11 +26,13 @@
 
             <li class="nav-item dropdown">
               <a class="nav-link d-flex flex-column align-items-center" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class='fas fa-bell'></i>
+                <i class='fas fa-bell' id="notificationIcon"></i>
+                <span class="notification-badge" id="notificationBadge"></span>
                 <span class="d-block text-center">お知らせ</span>
               </a>
               
               <div class="dropdown-menu" aria-labelledby="notificationDropdown" id="notifications-container">
+                <%= render 'public/notifications/index' %>
               </div>
             </li>
             

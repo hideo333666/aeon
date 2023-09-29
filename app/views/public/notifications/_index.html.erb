@@ -1,0 +1,8 @@
+<% if @notifications %>
+  <% @notifications.each do |notification| %>
+    <div class="notification-item">
+      <%= notification.message %>
+      <%= link_to 'Mark as Read', notification_path(notification), method: :patch, remote: true, class: 'mark-as-read' %>
+    </div>
+  <% end %>
+<% end %>

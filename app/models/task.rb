@@ -5,7 +5,7 @@ class Task < ApplicationRecord
   validates :title, presence: true
 
   before_save :set_default_dates
-  after_save :create_notification, if: :deadline_reached? 
+  after_save :check_due_date
 
   private
 
@@ -16,17 +16,9 @@ class Task < ApplicationRecord
   end
 
   # 期限が達しているかどうかを確認するメソッド
-  def deadline_reached?
-    end_date <= Date.today
+  def check_due_date
+    if end_date == Date.today
+      Notification.create(user_id: self.user_id, message: "Task #{self.title} is due today", time: DateTime.now)
+    end
   end
-
-  # 通知を作成するメソッド
-  def create_notification
-    Notification.create(
-      user: self.user, # 通知を受け取るユーザーを設定
-      message: "タスク'#{self.title}'の期限が到達しました",
-      time: DateTime.now # 通知時間を設定
-      )
-  end
-
 end
