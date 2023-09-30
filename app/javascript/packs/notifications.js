@@ -4,8 +4,7 @@ $(document).on('click', '.mark-as-read', function(e) {
   $.ajax({
     url: $(this).attr('href'),
     method: 'PATCH',
-    success: function() {
-      // Update the notifications dropdown and badge count
-    }
+    dataType: 'script'  
   });
 });
+

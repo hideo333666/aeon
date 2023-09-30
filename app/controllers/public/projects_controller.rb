@@ -4,7 +4,7 @@ class Public::ProjectsController < ApplicationController
 
   def index
     @projects = Project.all
-    @q = Project.ransack(params[:q])
+    @q =  current_user.projects.ransack(params[:q])
     @projects = @q.result
   end
 

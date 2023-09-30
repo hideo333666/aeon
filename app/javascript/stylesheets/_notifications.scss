@@ -4,7 +4,8 @@
   left: auto;
   right: 0;
   width: auto;
-  max-height: 200px;
+  max-height: 400px;
+  max-width: 400px;
   overflow-y: auto;
 }
 
@@ -16,5 +17,5 @@
   border-radius: 50%;
   background-color: red;
   color: white;
-  display: none; 
+  display: none;
 }
