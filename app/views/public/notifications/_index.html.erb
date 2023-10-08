@@ -1,14 +1,20 @@
 <% if @notifications.present? %>
-  <div class="list-group">
+  <div class="list-group shadow-sm rounded">
     <% @notifications.each do |notification| %>
       <div class="list-group-item" id="notification-item-<%= notification.id %>">
-        <div class="d-flex w-100 justify-content-between">
-          <h6 class="mb-1"><%= notification.message %></h6>
-          <small class="text-muted">
-            <%= link_to 'Mark as Read', notification_path(notification), method: :patch, remote: true, class: 'mark-as-read btn btn-sm btn-secondary' %>
-          </small>
+        <div class="d-flex w-100 justify-content-between align-items-center">
+          <div class="notification-content">
+            <p class="mb-0 font-weight-bold"><%= notification.message %></p>
+          </div>
+          <div class="notification-actions">
+            <%= link_to '既読', notification_path(notification), method: :patch, remote: true, class: 'mark-as-read btn btn-sm btn-outline-info' %>
+          </div>
         </div>
       </div>
     <% end %>
   </div>
 <% end %>
+
+
+
+
