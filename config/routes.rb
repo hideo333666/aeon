@@ -5,11 +5,11 @@ Rails.application.routes.draw do
   
   devise_for :users, controllers: {
     registrations: "public/registrations",
-    sessions: 'public/sessions'
+    sessions: "public/sessions"
   }
   
-  root 'homes#top'
-  get 'about', to: 'homes#about', as: 'about'
+  root "homes#top"
+  get "about", to: "homes#about", as: "about"
   
   namespace :admin do
     root to: "users#index"
@@ -24,9 +24,10 @@ Rails.application.routes.draw do
       end
     end
     resources :projects
+    resources :notifications, only: [:index, :update]
     get "dashboard", to: "dashboard#show", as: "dashboard"
-    get 'users/:id/contribution', to: 'users#contribution', as: 'user_contribution'
-    post 'validate_project', to: 'projects#validate'
+    get "users/:id/contribution", to: "users#contribution", as: "user_contribution"
+    post "validate_project", to: "projects#validate"
   end
 end
 

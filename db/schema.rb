@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_11_130834) do
+ActiveRecord::Schema.define(version: 2023_09_29_084744) do
 
   create_table "achievements", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 2023_09_11_130834) do
     t.datetime "time", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "read", default: false, null: false
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
