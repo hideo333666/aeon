@@ -24,6 +24,17 @@ import "./project";
 import "./sortable_init";
 import "./notifications";
 
+import { createApp } from 'vue';
+import ContributionGrid from '../components/ContributionGrid.vue';
+
+document.addEventListener('DOMContentLoaded', () => {
+  const app = createApp({
+    components: { ContributionGrid }
+  });
+  app.mount('#vue-app');
+});
+
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
