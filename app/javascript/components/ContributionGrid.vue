@@ -1,7 +1,5 @@
-<!-- app/javascript/components/ContributionGrid.vue -->
-
 <template>
-  <div>
+  <div id="contribution-grid">
     <div id="weekday-headers">
       <div>月</div>
       <div>火</div>
@@ -11,13 +9,15 @@
       <div>土</div>
       <div>日</div>
     </div>
-    <div v-for="(day, index) in days"
-         :key="index"
-         :class="['day-cell', day.monthClass]"
-         :data-day="day.number"
-         :title="day.title"
-         @mouseenter="showTooltip($event, day)"
-         @mouseleave="hideTooltip">
+    <div class="grid-container">
+      <div v-for="(day, index) in days"
+           :key="index"
+           :class="['day-cell', day.monthClass]"
+           :data-day="day.number"
+           :title="day.title"
+           @mouseenter="showTooltip($event, day)"
+           @mouseleave="hideTooltip">
+      </div>
     </div>
     <div v-if="tooltip.visible"
          :style="{top: tooltip.top + 'px', left: tooltip.left + 'px'}"
@@ -120,35 +120,50 @@ export default {
 </script>
 
 <style scoped>
-  #weekday-headers, .day-cell {
-    display: inline-block;
-    width: calc(100% / 7);
-    text-align: center;
-    box-sizing: border-box;
+  #contribution-grid {
+    width: 268px;
   }
-  
-  #weekday-headers div, .day-cell {
-    border: 1px solid #ddd;
-    padding: 10px;
-    height: 80px;
-  }
-  
-  .tooltip {
-    position: absolute;
-    opacity: 0;
-    background: #696969;
-    color: white;
-    border: 1px solid black;
-    border-Radius: 4px;
+
+  #weekday-headers {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
     padding: 5px;
   }
-  
-  .day-cell {
-    vertical-align: top;
-    cursor: pointer;
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
   }
-  
-  .color-level-1 { background-color: #e0f7fa; }
-  .color-level-2 { background-color: #80deea; }
-  .color-level-3 { background-color: #26c6da; }
+
+  .day-cell {
+    box-sizing: border-box;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    background-color: #edf2fa;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  .day-cell:hover {
+    background-color: rgba(255,255,255,0.3);
+  }
+
+  .color-level-1 {
+    background-color: #b0f5e5;
+  }
+
+  .color-level-2 {
+    background-color: #35f2c6;
+  }
+
+  .color-level-3 {
+    background-color: #077485;
+  }
 </style>
