@@ -129,8 +129,17 @@ export default {
     grid-template-columns: repeat(7, 1fr);
     gap: 2px;
     padding: 5px;
+    padding-left: 0;
   }
-
+  
+  #weekday-headers > div {
+    height: 30px;
+    line-height: 30px; 
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+  }
+  
   .grid-container {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -144,8 +153,8 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 4px;
-    margin-bottom: 4px;
+    margin-right: 0;
+    margin-bottom: 0;
     background-color: #edf2fa;
     border-radius: 5px;
     transition: background-color 0.3s;
