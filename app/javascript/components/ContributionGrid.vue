@@ -14,8 +14,9 @@
            :key="index"
            :class="['day-cell', day.monthClass]"
            :data-day="day.number"
+           :title="day.title"
            @mouseenter="showTooltip($event, day.title)"
-           @mouseleave="hideTooltip($event, day)">
+           @mouseleave="hideTooltip($event, day.title)">
       </div>
     </div>
     <div v-if="tooltip.visible"
@@ -103,7 +104,7 @@ export default {
       return 'color-level-3';
     },
     showTooltip(event, title) {
-      event.target.removeAttribute('title');
+      event.target.removeAttribute('title'); 
       const offset = event.target.getBoundingClientRect();
       this.tooltip = {
         visible: true,
@@ -112,7 +113,8 @@ export default {
         left: offset.left
       };
     },
-    hideTooltip(event, day) {
+    hideTooltip(event, title) {
+      event.target.setAttribute('title', title);
       this.tooltip.visible = false;
     }
   }
