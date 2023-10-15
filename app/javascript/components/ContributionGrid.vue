@@ -60,19 +60,23 @@ export default {
       const daysToShowFromPreviousMonth = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
 
       for (let day = daysInPreviousMonth - daysToShowFromPreviousMonth + 1; day <= daysInPreviousMonth; day++) {
-        this.days.push(this.createDayCell(day, 'previous-month'));
+        this.days.push(this.createDayCell(day, 'previous-month', today.getMonth() - 1, today.getFullYear()));
       }
 
       const daysInCurrentMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
       for (let day = 1; day <= daysInCurrentMonth; day++) {
-        this.days.push(this.createDayCell(day, 'current-month'));
+        this.days.push(this.createDayCell(day, 'current-month', today.getMonth(), today.getFullYear()));
       }
     },
-    createDayCell(day, monthClass) {
+    createDayCell(day, monthClass, month, year) {
+      const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
       return {
         number: day,
         monthClass: monthClass,
-        title: `${day}日: タスクはまだ完了していません`
+        month: month,  
+        year: year,
+        title: `${dateString}日: タスクはまだ完了していません`,
+        dateString: dateString
       };
     },
     fetchAndRenderContributions() {
@@ -87,14 +91,14 @@ export default {
         });
     },
     updateContributionGrid(data) {
+      const today = new Date();
+      const currentMonth = today.getMonth();
       for (let date in data) {
         const taskCount = data[date];
-        const dayNumber = new Date(date).getDate();
-
-        const day = this.days.find(day => day.number === dayNumber);
+        const day = this.days.find(day => day.dateString === date && day.month === currentMonth);
         if (day) {
-          day.title = `${date}日: ${taskCount}タスク完了`;
-          day.monthClass += ' ' + this.determineColorClass(taskCount);
+          day.title = `${date}: ${taskCount}タスク完了`;
+          day.monthClass = day.monthClass.replace(/color-level-\d/, '') + ' ' + this.determineColorClass(taskCount);
         }
       }
     },
@@ -120,6 +124,7 @@ export default {
   }
 }
 </script>
+
 
 <style scoped>
   #contribution-grid {
