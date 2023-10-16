@@ -46,10 +46,14 @@ export default {
   },
   methods: {
     initializeContributionGrid() {
+      this.resetDays();
       this.renderDaysOfMonth();
       if (this.$el.classList.contains('mypage')) {
         this.fetchAndRenderContributions();
       }
+    },
+    resetDays(){
+      this.days = [];
     },
     renderDaysOfMonth() {
       const today = new Date();
@@ -93,15 +97,34 @@ export default {
     updateContributionGrid(data) {
       const today = new Date();
       const currentMonth = today.getMonth();
-      for (let date in data) {
-        const taskCount = data[date];
-        const day = this.days.find(day => day.dateString === date && day.month === currentMonth);
-        if (day) {
-          day.title = `${date}: ${taskCount}タスク完了`;
-          day.monthClass = day.monthClass.replace(/color-level-\d/, '') + ' ' + this.determineColorClass(taskCount);
+      const currentYear = today.getFullYear();
+      
+      this.days.forEach(dayCell => {
+        const [year, month, day] = dayCell.dateString.split('-').map(Number);
+        if (month - 1 === currentMonth && year === currentYear) {
+          const date = dayCell.dateString;
+          const taskCount = data[date] || 0;  
+          dayCell.title = `${date}: ${taskCount}タスク完了`;
+          dayCell.monthClass = 'current-month ' + this.determineColorClass(taskCount);
+        } else if (month - 1 < currentMonth || year < currentYear) { 
+          dayCell.monthClass = 'previous-month'; 
         }
-      }
+      });
     },
+    
+    createDayCell(day, monthClass, month, year) {
+      const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      return {
+        number: day,
+        monthClass: monthClass,
+        month: month,  
+        year: year,
+        title: `${dateString}日: タスクはまだ完了していません`,
+        dateString: dateString,
+        colorClass: this.determineColorClass(0)  
+      };
+    },
+    
     determineColorClass(taskCount) {
       if (taskCount < 3) return 'color-level-1';
       if (taskCount < 6) return 'color-level-2';
