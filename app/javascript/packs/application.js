@@ -26,10 +26,15 @@ import "./notifications";
 
 import { createApp } from 'vue';
 import ContributionGrid from '../components/ContributionGrid.vue';
+import LoadingScreen from '../components/LoadingScreen.vue';
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = createApp({
-    components: { ContributionGrid }
+    components: { 
+      ContributionGrid, 
+      LoadingScreen
+    }
   });
   app.mount('#vue-app');
 });

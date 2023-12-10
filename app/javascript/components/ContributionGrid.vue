@@ -52,8 +52,26 @@ export default {
         this.fetchAndRenderContributions();
       }
     },
-    resetDays(){
+    resetDays() {
       this.days = [];
+    },
+    resetGrid() {
+      const today = new Date();
+      const currentMonth = today.getMonth();
+      const currentYear = today.getFullYear();
+      
+      this.days = this.days.map(dayCell =>{
+        const [year,month] = dayCell.dateString.split('-').map(Number);
+        
+        if (month - 1 !== currentMonth || year !== currentYear) {
+          return {
+            ...dayCell,
+            title: `${dayCell.dateString}日: タスクはまだ完了していません`,
+            monthClass: dayCell.monthClass.replace(/(color-level-1|color-level-2|color-level-3)/g, '')
+          };
+        }
+        return dayCell;
+      });
     },
     renderDaysOfMonth() {
       const today = new Date();
@@ -88,6 +106,7 @@ export default {
 
       this.$http.get(endpoint, { params: { user_id: this.userId } })
         .then(response => {
+          console.log(response.data);
           this.updateContributionGrid(response.data);
         })
         .catch(error => {
@@ -101,14 +120,15 @@ export default {
       
       this.days.forEach(dayCell => {
         const [year, month, day] = dayCell.dateString.split('-').map(Number);
+        const date = dayCell.dateString;
+        const taskCount = data[date] || 0;  
+        
         if (month - 1 === currentMonth && year === currentYear) {
-          const date = dayCell.dateString;
-          const taskCount = data[date] || 0;  
-          dayCell.title = `${date}: ${taskCount}タスク完了`;
-          dayCell.monthClass = 'current-month ' + this.determineColorClass(taskCount);
-        } else if (month - 1 < currentMonth || year < currentYear) { 
-          dayCell.monthClass = 'previous-month'; 
-        }
+            dayCell.title = `${date}: ${taskCount}タスク完了`;
+            dayCell.monthClass = `current-month ${this.determineColorClass(taskCount)}`;  
+        } else {
+           dayCell.monthClass = dayCell.monthClass.replace(/(color-level-1|color-level-2|color-level-3)/g, '');
+          }
       });
     },
     
@@ -121,7 +141,6 @@ export default {
         year: year,
         title: `${dateString}日: タスクはまだ完了していません`,
         dateString: dateString,
-        colorClass: this.determineColorClass(0)  
       };
     },
     
