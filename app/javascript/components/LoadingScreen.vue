@@ -6,6 +6,7 @@
     <div class="circular another"></div>
     <div class="text">Loading</div>
   </div>
+
 </template>
 
 <script>
@@ -32,10 +33,12 @@
   .loading-screen {
     position: absolute;
     top: 50%;
-    width: 50%;
+    left: 50%;
+    width: 150px;
+    transform: translateX(-50%);
     margin: 0 auto;
   }
-
+  
   .loader {
     position: absolute;
     top: 0;
@@ -161,7 +164,6 @@
   .text {
     position: absolute;
     top: 95px;
-    left: 8px;
     font-family: Arial;
     text-transform: uppercase;
     color: #888;
